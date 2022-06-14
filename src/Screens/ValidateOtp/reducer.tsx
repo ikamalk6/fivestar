@@ -1,12 +1,10 @@
-const initialState = {
-  name: '',
-};
+const initialState = {};
 
 const ValidateOtpReducer = (state = initialState, action) => {
   const {type, payload} = action;
 
   switch (type) {
-    case 'SET_NAME':
+    case 'SET_USER_DETAIL':
       return {...state, ...payload};
     default:
       return {...state};

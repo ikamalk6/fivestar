@@ -12,10 +12,9 @@ import {useNavigation} from '@react-navigation/native';
 import {TextInput} from 'react-native-paper';
 import * as yup from 'yup';
 import {Formik} from 'formik';
-import axios from 'axios';
 import styles from './Styles';
 import {useSelector, useDispatch} from 'react-redux';
-import SingUpApiCall from '../../Redux/SignUp/action';
+import SingUpApiCall from './action';
 
 export default function SignUp() {
   const dispatch = useDispatch<any>();

@@ -17,18 +17,11 @@ const SingUpApiCall = values => {
     })
       .then(resp => {
         dispatch({
-          type: 'SET_USERID',
-          payload: {userId: resp.data.data.userId},
+          type: 'SET_USER',
+          payload: resp.data.data,
         });
-        dispatch({
-          type: 'SET_PHONE',
-          payload: {phoneNo: resp.data.data.phoneNo},
-        });
-        dispatch({
-          type: 'SET_COUNTRYCODE',
-          payload: {countryCode: resp.data.data.countryCode},
-        });
-        console.log('response', resp);
+        // console.log('check',userId)
+       
       })
       .catch(err => {
         console.log('error', err);

@@ -56,7 +56,7 @@ export default function LoginScreen() {
           },
         })
           .then(resp => {
-            console.log('response', resp);
+            console.log('responseLogin', resp);
           })
           .catch(err => {
             console.log('error', err);

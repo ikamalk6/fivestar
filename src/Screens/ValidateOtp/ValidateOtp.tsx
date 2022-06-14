@@ -6,21 +6,21 @@ import {
   View,
   Image,
   ScrollView,
+  Modal,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {TextInput} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
-import ValidateOtpApiCall from '../../Redux/ValidateOtp/action';
+import ValidateOtpApiCall from './action';
 
 export default function ValidateOtp() {
   const navigation = useNavigation<any>();
 
   const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const {userId, phoneNo, countryCode} = useSelector(
-    store => store.SignUpReducer,
-  );
+  const user = useSelector(store => store.SignUpReducer);
   // console.log(userId, phoneNo, countryCode);
 
   const [otp, setOtp] = useState('');
@@ -43,14 +43,32 @@ export default function ValidateOtp() {
               {'Kindly enter the 4 digit code sent to your number'}
             </Text>
             <TextInput dense={true} onChangeText={txt => setOtp(txt)} />
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.submit}
-              onPress={() =>
-                dispatch<any>(
-                  ValidateOtpApiCall({userId, phoneNo, countryCode, otp}),
-                )
-              }>
+              onPress={() => {
+                // navigation.navigate('LoginScreen'),
+                dispatch<any>(ValidateOtpApiCall({user, otp}));
+              }}>
+                
               <Text style={styles.submittxt}>{'SUBMIT'}</Text>
+            </TouchableOpacity> */}
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
+              }}>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </TouchableOpacity>
+            </Modal>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonOpen]}
+              onPress={() => setModalVisible(true)}>
+              <Text style={styles.textStyle}>SUBMIT</Text>
             </TouchableOpacity>
           </View>
 
@@ -123,5 +141,26 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     marginBottom: 15,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    marginTop: 30,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
