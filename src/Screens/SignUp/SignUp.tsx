@@ -96,7 +96,6 @@ export default function SignUp() {
                   colors: {
                     placeholder: 'white',
                     text: '#44C2E3',
-
                     primary: 'white',
                     background: '#000000',
                   },

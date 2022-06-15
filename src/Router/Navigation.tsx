@@ -7,13 +7,15 @@ import SignUp from '../Screens/SignUp/SignUp';
 import SplashScreen from '../Screens/SplashScreen/SplashScreen';
 import Terms from '../Screens/TermScreen/Terms';
 import ValidateOtp from '../Screens/ValidateOtp/ValidateOtp';
+import ChoicePage from '../Screens/choicePage';
+import CompleteProfile from '../Screens/completeProfile';
 
 export default function Navigation() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
           options={{
@@ -34,11 +36,17 @@ export default function Navigation() {
           name="Terms"
           component={Terms}
           options={{headerShown: false}}
-        /> */}
+        />
         <Stack.Screen
           options={{headerShown: false}}
           name="ValidateOtp"
           component={ValidateOtp}
+        />
+        <Stack.Screen name="ChoicePage" component={ChoicePage} />
+        <Stack.Screen
+          name="CompleteProfile"
+          component={CompleteProfile}
+          // options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

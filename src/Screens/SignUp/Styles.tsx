@@ -10,19 +10,14 @@ const styles = StyleSheet.create({
   },
   inputText: {
     marginVertical: 10,
-    // marginBottom: 10,
     borderRadius: 5,
-    // height: 54,
     justifyContent: 'center',
-    // textAlign: 'center',
-    // fontWeight: '600',
   },
   create: {
     color: '#ffffff',
     fontWeight: '900',
     fontSize: 24,
     fontStyle: 'italic',
-    // marginBottom: 10,
     marginVertical: 10,
   },
   started: {
@@ -34,7 +29,6 @@ const styles = StyleSheet.create({
     width: 22,
   },
   terms: {
-    // padding: 20,
     marginTop: 15,
     flexDirection: 'row',
   },

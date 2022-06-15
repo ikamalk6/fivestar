@@ -67,7 +67,7 @@ export default function LoginScreen() {
         email: yup.string().email().required('Invalid credentials'),
         password: yup
           .string()
-          .min(6, 'too short')
+          .min(8, 'too short')
           .required('Invalid credentials'),
       })}>
       {({
