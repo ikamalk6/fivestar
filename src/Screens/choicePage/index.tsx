@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 export default function ChoicePage() {
+  const [isDisabled, SetisDisabled] = useState(true);
+
   const navigation = useNavigation<any>();
   return (
     <View style={styles.container}>
@@ -24,16 +26,26 @@ export default function ChoicePage() {
       </TouchableOpacity>
       <Text style={styles.question}>{'Who are You?'}</Text>
       <TouchableOpacity
+        onPress={() => {
+          SetisDisabled(!isDisabled);
+        }}
         style={{
           marginVertical: 20,
           borderWidth: 2,
           borderColor: '#1A1A1B',
           borderRadius: 5,
         }}>
-        <ImageBackground
-          style={styles.fan}
-          source={require('../../assets/image/fan.png')}
-        />
+        {isDisabled ? (
+          <ImageBackground
+            style={styles.fan}
+            source={require('../../assets/image/fan.png')}
+          />
+        ) : (
+          <ImageBackground
+            style={styles.fan}
+            source={require('../../assets/image/athl.png')}
+          />
+        )}
       </TouchableOpacity>
       <TouchableOpacity
         style={{
@@ -48,6 +60,7 @@ export default function ChoicePage() {
         />
       </TouchableOpacity>
       <TouchableOpacity
+        disabled={isDisabled}
         onPress={() => {
           navigation.navigate('CompleteProfile');
         }}
@@ -66,6 +79,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     flex: 1,
     padding: 10,
+    paddingTop: 60,
   },
   arrow: {
     height: 18,
@@ -76,6 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontStyle: 'italic',
     fontWeight: '900',
+    marginTop: 10,
   },
   fan: {
     height: 104,
@@ -85,8 +100,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: '96%',
     borderRadius: 5,
-    // bottom: 0,
-    // marginTop: 330,
     alignSelf: 'center',
   },
 });

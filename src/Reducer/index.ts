@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import SignUpReducer from "../Screens/SignUp/reducer";
-import ValidateOtpReducer from "../Screens/ValidateOtp/reducer";
+import SignUpReducer from "../screens/signUpScreen/reducer";
+import ValidateOtpReducer from "../screens/validateOtp/reducer";
 
 const rootReducer=combineReducers({
     SignUpReducer,

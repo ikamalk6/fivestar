@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React from 'react';
 import {TextInput} from 'react-native-paper';
 
-export default function CustomTextInput(props) {
+export default function CustomTextInput(props: any) {
   const {rightComponent} = props;
   return (
     <>

@@ -5,7 +5,6 @@ export default function OtpInput(props: any) {
   const [text, setText] = useState('');
   const {callBack} = props;
   return (
-    // <View style={{flexDirection: 'row', borderWidth: 2, borderColor: 'red'}}>
     <TextInput
       style={styles.txtInput}
       maxLength={1}
@@ -13,7 +12,6 @@ export default function OtpInput(props: any) {
       onChangeText={text => {
         setText(callBack(text));
       }}></TextInput>
-    // </View>
   );
 }
 

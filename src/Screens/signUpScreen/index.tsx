@@ -1,26 +1,19 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  Alert,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {Text, View, TouchableOpacity, Image, ScrollView} from 'react-native';
+import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {TextInput} from 'react-native-paper';
 import * as yup from 'yup';
 import {Formik} from 'formik';
-import styles from './Styles';
+import styles from '../signUpScreen/style';
 import {useSelector, useDispatch} from 'react-redux';
-import SingUpApiCall from './action';
+import SignUpApiCall from './action';
 
 export default function SignUp() {
   const dispatch = useDispatch<any>();
-  const {name, phoneNo, email, password, countryCode} = useSelector<any>(
+  const {name, email, password, countryCode, phoneNo} = useSelector<any>(
     store => store.SignUpReducer,
   );
+
   const navigation = useNavigation<any>();
 
   return (
@@ -43,7 +36,8 @@ export default function SignUp() {
       //   resetForm();
       // }}
       onSubmit={values => {
-        dispatch(SingUpApiCall(values));
+        dispatch(SignUpApiCall(values));
+        console.log('on Submit', values);
         navigation.navigate('ValidateOtp');
       }}
       validationSchema={yup.object().shape({
@@ -63,7 +57,6 @@ export default function SignUp() {
         setFieldValue,
       }) => (
         <View style={styles.main}>
-          {/* {console.log('valid', isValid)} */}
           <ScrollView>
             <View style={styles.inner}>
               <TouchableOpacity

@@ -1,25 +1,27 @@
 import {
-  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Image,
   ScrollView,
-  Modal,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
 import OtpInput from '../../components/otpInput';
-
+import Modal from 'react-native-modal';
+import {useSelector} from 'react-redux';
 export default function ValidateOtp() {
+  const {phoneNo} = useSelector(store => store.SignUpReducer);
+
+  // const user = useSelector(store => store.SignUpReducer);
   const arr = [2, 3, 4, 5];
   const navigation = useNavigation<any>();
-  const dispatch = useDispatch();
-  const [modalVisible, setModalVisible] = useState(false);
-  const user = useSelector(store => store.SignUpReducer);
   const [str, setStr] = useState('');
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   return (
     <View style={styles.mainView}>
@@ -37,8 +39,16 @@ export default function ValidateOtp() {
             </TouchableOpacity>
             <Text style={styles.heading}>{'Enter Verification code'}</Text>
             <Text style={styles.message}>
-              {'Kindly enter the 4 digit code sent to your number'}
+              {`Kindly enter the 4 digit verification code sent to`}
             </Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.message}>{phoneNo}</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                <Text style={{color: '#44C2E3', fontWeight: '800'}}>
+                  {'Edit'}
+                </Text>
+              </TouchableOpacity>
+            </View>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
               {arr.map(item => {
@@ -52,44 +62,32 @@ export default function ValidateOtp() {
                 );
               })}
             </View>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                setModalVisible(!modalVisible);
-              }}>
+
+            <TouchableOpacity style={styles.button} onPress={toggleModal}>
+              <Text style={styles.textStyle}>SUBMIT</Text>
+            </TouchableOpacity>
+
+            <Modal isVisible={isModalVisible}>
               <View style={styles.modal}>
                 <Image
                   style={styles.thumb}
                   source={require('../../assets/image/rithumb.png')}
                 />
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: '900',
-                    textAlign: 'center',
-                  }}>
-                  {'\nCONGRATULATIONS\n'}
-                </Text>
+                <Text style={styles.congo}>{'\nCONGRATULATIONS\n'}</Text>
                 <Text style={{color: 'white', textAlign: 'center'}}>
                   {'Your account has been successfully \nregistered'}
                 </Text>
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => {
-                    navigation.navigate('CompleteProfile'),
-                      setModalVisible(!modalVisible);
+                    setModalVisible(false);
+                    navigation.navigate('ChoicePage');
                   }}>
                   <Text style={styles.textStyle}>CONTINUE</Text>
                 </TouchableOpacity>
               </View>
             </Modal>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => setModalVisible(true)}>
-              <Text style={styles.textStyle}>SUBMIT</Text>
-            </TouchableOpacity>
+
             <Text style={styles.otpWarn}>
               {"Didn't received the code yet?"}
             </Text>
@@ -132,8 +130,8 @@ const styles = StyleSheet.create({
   },
   message: {
     color: '#ffffff',
-    marginVertical: 10,
-    marginBottom: 20,
+    // marginVertical: 10,
+    // marginBottom: 20,
   },
   submit: {
     backgroundColor: '#44C2E3',
@@ -199,11 +197,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   modal: {
-    borderWidth: 0.5,
-    borderTopWidth: 2,
+    borderWidth: 0.3,
+    borderTopWidth: 3,
     borderColor: '#44C2E3',
     alignSelf: 'center',
-    marginVertical: '50%',
     backgroundColor: '#000000',
     height: 300,
     width: 350,
@@ -216,5 +213,10 @@ const styles = StyleSheet.create({
     width: 24,
     resizeMode: 'contain',
     alignSelf: 'center',
+  },
+  congo: {
+    color: 'white',
+    fontWeight: '900',
+    textAlign: 'center',
   },
 });

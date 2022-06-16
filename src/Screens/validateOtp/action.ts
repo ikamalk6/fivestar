@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const ValidateOtpApiCall = values => {
-  console.log(values);
+  console.log('nfgfsdfdj,hg',values);
 
   const {
     user: {userId, countryCode, phoneNo},

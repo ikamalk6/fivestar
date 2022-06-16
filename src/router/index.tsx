@@ -1,19 +1,20 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginScreen from '../Screens/Login/LoginScreen';
-import SignUp from '../Screens/SignUp/SignUp';
-import SplashScreen from '../Screens/SplashScreen/SplashScreen';
-import Terms from '../Screens/TermScreen/Terms';
-import ValidateOtp from '../Screens/ValidateOtp/ValidateOtp';
-import ChoicePage from '../Screens/choicePage';
-import CompleteProfile from '../Screens/completeProfile';
+import LoginScreen from '../screens/loginScreen';
+import SignUp from '../screens/signUpScreen';
+import SplashScreen from '../screens/splashScreen';
+import Terms from '../screens/termScreen';
+import ValidateOtp from '../screens/validateOtp';
+import ChoicePage from '../screens/choicePage';
+import CompleteProfile from '../screens/completeProfile';
+import {StatusBar} from 'react-native';
 
-export default function Navigation() {
+export default function NavigationScreen() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
+      <StatusBar barStyle={'light-content'} />
       <Stack.Navigator>
         <Stack.Screen
           name="SplashScreen"
@@ -42,7 +43,11 @@ export default function Navigation() {
           name="ValidateOtp"
           component={ValidateOtp}
         />
-        <Stack.Screen name="ChoicePage" component={ChoicePage} />
+        <Stack.Screen
+          name="ChoicePage"
+          component={ChoicePage}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="CompleteProfile"
           component={CompleteProfile}
@@ -52,5 +57,3 @@ export default function Navigation() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({});

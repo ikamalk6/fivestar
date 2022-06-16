@@ -1,22 +1,6 @@
-// import {View, Text} from 'react-native';
-// import React from 'react';
-// import {useSelector} from 'react-redux';
-// export default function LoginScreen() {
-//   const {name, email} = useSelector(store => store.SignUpReducer);
-//   console.log(name);
-
-//   return (
-//     <View>
-//       <Text>LoginScreen</Text>
-//     </View>
-//   );
-// }
-
 import {
-  StyleSheet,
   Text,
   View,
-  Button,
   TextInput,
   TouchableOpacity,
   Image,
@@ -25,11 +9,10 @@ import {
 import React from 'react';
 import * as yup from 'yup';
 import {Formik} from 'formik';
-import styles from './Styles';
+import styles from '../loginScreen/style';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import onGoogleButtonPress from '../../Utils/GoogleSignInButtonFn';
-
+import OnGoogleButtonPress from '../../utils/googleButton';
 export default function LoginScreen() {
   const navigation = useNavigation<any>();
   return (
@@ -180,7 +163,7 @@ export default function LoginScreen() {
                 //   .catch(err => {
                 //     console.log('error', err);
                 //   });
-                onGoogleButtonPress()
+                OnGoogleButtonPress()
               }>
               <Image
                 style={styles.glogo}
@@ -190,7 +173,11 @@ export default function LoginScreen() {
               <Text style={styles.gText}>{'Continue With Google'}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.apple}>
+            <TouchableOpacity
+              style={styles.apple}
+              onPress={() => {
+                navigation.navigate('ValidateOtp');
+              }}>
               <Image
                 style={styles.glogo}
                 source={require('../../assets/image/apple.png')}
@@ -200,11 +187,6 @@ export default function LoginScreen() {
 
             <View style={styles.newUser}>
               <Text style={styles.newUserT}>{"I'm a new user "}</Text>
-              {/* <Button
-                title="Sign Up"
-                color={'#44C2E3'}
-                onPress={() => navigation.navigate('SignUp')}
-              /> */}
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('SignUp');

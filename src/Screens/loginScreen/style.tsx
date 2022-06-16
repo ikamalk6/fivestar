@@ -1,7 +1,9 @@
 import {StyleSheet} from 'react-native';
+import COLOR from '../../utils/colors';
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#000000',
+    backgroundColor: COLOR.black,
     flex: 1,
   },
   mainView: {
@@ -9,7 +11,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   heading: {
-    color: '#FFFFFF',
+    color: COLOR.white,
     fontSize: 26,
     fontWeight: '900',
     fontStyle: 'italic',
@@ -22,14 +24,14 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     borderRadius: 5,
     margin: 10,
-    color: '#44C2E3',
+    color: COLOR.sky,
     fontWeight: '900',
-    backgroundColor: '#000000',
+    backgroundColor: COLOR.black,
     borderColor: 'white',
     borderWidth: 1.5,
   },
   buttonValid: {
-    backgroundColor: '#44C2E3',
+    backgroundColor: COLOR.sky,
     borderRadius: 5,
     height: 48,
     width: 328,
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   forgot: {
-    color: '#44C2E3',
+    color: COLOR.sky,
     fontSize: 16,
     position: 'absolute',
     alignSelf: 'flex-end',
@@ -77,8 +79,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: 'grey',
     alignSelf: 'center',
-    // padding: 10,
-    // margin: 20,
   },
   orStyle: {
     flexDirection: 'row',
@@ -98,13 +98,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   newUserT: {
-    color: '#ffffff',
+    color: COLOR.white,
     fontSize: 16,
   },
   google: {
     margin: 20,
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
+    backgroundColor: COLOR.white,
     width: '95%',
     height: 48,
     justifyContent: 'center',
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: 'row',
 
-    backgroundColor: '#ffffff',
+    backgroundColor: COLOR.white,
 
     width: '95%',
     height: 48,
@@ -134,8 +134,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     bottom: 30,
     position: 'absolute',
-    // marginBottom: 30,
-    // marginTop: 35,
     right: 30,
   },
   glogo: {
