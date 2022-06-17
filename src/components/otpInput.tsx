@@ -18,10 +18,10 @@ export default function OtpInput(props: any) {
 const styles = StyleSheet.create({
   txtInput: {
     backgroundColor: '#000000',
-    height: 48,
-    width: 64,
-
-    fontSize: 20,
+    height: 50,
+    width: 65,
+    fontWeight: '900',
+    fontSize: 30,
     borderRadius: 5,
     borderColor: '#ffffff',
     borderWidth: 1,

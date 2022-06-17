@@ -5,24 +5,31 @@ import {
   View,
   Image,
   ScrollView,
+  TextInput,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import OtpInput from '../../components/otpInput';
+
 import Modal from 'react-native-modal';
 import {useSelector} from 'react-redux';
+import ValidateOtpApiCall from './action';
+import COLOR from '../../utils/colors';
 export default function ValidateOtp() {
-  const {phoneNo} = useSelector(store => store.SignUpReducer);
+  const digi1 = useRef<any>(null);
+  const digi2 = useRef<any>(null);
+  const digi3 = useRef<any>(null);
+  const digi4 = useRef<any>(null);
 
-  // const user = useSelector(store => store.SignUpReducer);
-  const arr = [2, 3, 4, 5];
   const navigation = useNavigation<any>();
-  const [str, setStr] = useState('');
+  const [otp, setOtp] = useState('');
   const [isModalVisible, setModalVisible] = useState(false);
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
+  // const toggleModal = () => {
+  //   setModalVisible(!isModalVisible);
+  // };
+  const {phoneNo, userId, countryCode} = useSelector(
+    store => store.SignUpReducer,
+  );
   return (
     <View style={styles.mainView}>
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -41,32 +48,74 @@ export default function ValidateOtp() {
             <Text style={styles.message}>
               {`Kindly enter the 4 digit verification code sent to`}
             </Text>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
               <Text style={styles.message}>{phoneNo}</Text>
               <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                 <Text style={{color: '#44C2E3', fontWeight: '800'}}>
-                  {'Edit'}
+                  {'   Edit'}
                 </Text>
               </TouchableOpacity>
             </View>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-              {arr.map(item => {
-                return (
-                  <OtpInput
-                    callBack={(txt: string) => {
-                      let text = str + txt;
-                      setStr(text);
-                    }}
-                  />
-                );
-              })}
+            <View style={styles.inpView}>
+              <TextInput
+                ref={digi1}
+                maxLength={1}
+                onChangeText={text => {
+                  setOtp(otp => otp + text);
+                  digi2.current.focus();
+                }}
+                style={styles.txtinp}
+              />
+              <TextInput
+                ref={digi2}
+                maxLength={1}
+                onChangeText={text => {
+                  setOtp(otp => otp + text);
+                  digi3.current.focus();
+                }}
+                style={styles.txtinp}
+              />
+              <TextInput
+                ref={digi3}
+                maxLength={1}
+                onChangeText={text => {
+                  setOtp(otp => otp + text);
+                  digi4.current.focus();
+                }}
+                style={styles.txtinp}
+              />
+              <TextInput
+                ref={digi4}
+                maxLength={1}
+                onChangeText={text => {
+                  setOtp(otp => otp + text);
+                  digi4.current.blur();
+                }}
+                style={styles.txtinp}
+              />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={toggleModal}>
-              <Text style={styles.textStyle}>SUBMIT</Text>
-            </TouchableOpacity>
-
+            {otp.length == 4 ? (
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  console.log(
+                    ValidateOtpApiCall(userId, otp, countryCode, phoneNo)
+                      .then(res => {
+                        res.status == 200 && setModalVisible(!isModalVisible);
+                      })
+                      .catch(err => {
+                        Alert.alert('invalid otp');
+                      }),
+                  );
+                }}>
+                <Text>{'Submit'}</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={styles.btnx}>
+                <Text>{'Submit'}</Text>
+              </TouchableOpacity>
+            )}
             <Modal isVisible={isModalVisible}>
               <View style={styles.modal}>
                 <Image
@@ -127,11 +176,10 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: '#ffffff',
     fontWeight: '900',
+    marginVertical: 10,
   },
   message: {
     color: '#ffffff',
-    // marginVertical: 10,
-    // marginBottom: 20,
   },
   submit: {
     backgroundColor: '#44C2E3',
@@ -170,7 +218,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 15,
     marginTop: 30,
-    // elevation: 2,
     backgroundColor: '#44C2E3',
   },
   textStyle: {
@@ -219,4 +266,184 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     textAlign: 'center',
   },
+  txtinp: {
+    backgroundColor: '#000000',
+    height: 50,
+    width: 65,
+    fontWeight: '900',
+    fontSize: 30,
+    borderRadius: 5,
+    borderColor: '#ffffff',
+    borderWidth: 1,
+    color: '#44C2E3',
+    textAlign: 'center',
+  },
+  inpView: {
+    marginVertical: 15,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  btn: {
+    height: 80,
+    width: '100%',
+    backgroundColor: COLOR.sky,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 30,
+  },
+  btnx: {
+    height: 80,
+    width: 80,
+    // textAlign: 'center',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 30,
+  },
 });
+
+{
+  /* import {
+//   StyleSheet, 
+//   Text,
+//   View,
+//   TouchableOpacity,
+//   Image,
+//   TextInput,
+// } from 'react-native';
+// import React, {useRef, useState} from 'react';
+// import {useDispatch, useSelector} from 'react-redux';
+// import {useNavigation} from '@react-navigation/native';
+// import ValidateOtpApiCall from './action';
+
+// export default function ValidateOtp() {
+//   const navigation = useNavigation();
+//   const digi1 = useRef<any>(null);
+//   const digi2 = useRef<any>(null);
+//   const digi3 = useRef<any>(null);
+//   const digi4 = useRef<any>(null);
+
+//   const [otp, setOtp] = useState('');
+//   // const {userId, countryCode, phoneNo} = useSelector(
+//   //   (store: any) => store.SignUpRedcuer);
+//   const {phoneNo, userId, countryCode} = useSelector(
+//     store => store.SignUpReducer,
+//   );
+//   return (
+//     <View style={styles.mainView}>
+//
+//       <View style={styles.inpView}>
+//         <TextInput
+//           ref={digi1}
+//           maxLength={1}
+//           onChangeText={text => {
+//             setOtp(otp => otp + text);
+//             digi2.current.focus();
+//           }}
+//           style={styles.txtinp}
+//         />
+//         <TextInput
+//           ref={digi2}
+//           maxLength={1}
+//           onChangeText={text => {
+//             setOtp(otp => otp + text);
+
+//             digi3.current.focus();
+//           }}
+//           style={styles.txtinp}
+//         />
+//         <TextInput
+//           ref={digi3}
+//           maxLength={1}
+//           onChangeText={text => {
+//             setOtp(otp => otp + text);
+
+//             digi4.current.focus();
+//           }}
+//           style={styles.txtinp}
+//         />
+//         <TextInput
+//           ref={digi4}
+//           maxLength={1}
+//           onChangeText={text => {
+//             setOtp(otp => otp + text);
+//             // console.log('otp', otp);
+
+//             digi4.current.blur();
+//           }}
+//           style={styles.txtinp}
+//         />
+//       </View>
+//       {otp.length == 4 ? (
+//         <TouchableOpacity
+//           style={styles.btn}
+//           onPress={() => {
+//             console.log(
+//               ValidateOtpApiCall(userId, otp, countryCode, phoneNo).then(
+//                 res => {
+//                   console.log('resolved---', res);
+//                   res.status == 200
+//                     ? console.log('first')
+//                     : console.log('error');
+//                 },
+//               ),
+//             );
+//             //   console.log(res);
+//             // });
+//           }}>
+//           <Text>{'Submit'}</Text>
+//         </TouchableOpacity>
+//       ) : (
+//         <TouchableOpacity style={styles.btnx}>
+//           <Text>{'Submit'}</Text>
+//         </TouchableOpacity>
+//       )}
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   mainView: {
+//     flex: 1,
+//     backgroundColor: 'black',
+//     paddingTop: 50,
+//     padding: 20,
+//   },
+//   arrow: {
+//     height: 20,
+//     width: 20,
+//     marginBottom: 15,
+//   },
+//   heading: {
+//     fontStyle: 'italic',
+//     color: '#ffffff',
+//     fontSize: 27,
+//     fontWeight: '900',
+//     marginVertical: 10,
+//   },
+//   txtinp: {height: 60, width: 70, backgroundColor: 'green'},
+//   inpView: {
+//     backgroundColor: 'white',
+//     justifyContent: 'space-between',
+//     flexDirection: 'row',
+//   },
+//   btn: {
+//     height: 80,
+//     width: 80,
+//     backgroundColor: 'red',
+//     // textAlign: 'center',
+//     justifyContent: 'center',
+//     alignSelf: 'center',
+//     marginTop: 30,
+//   },
+//   btnx: {
+//     height: 80,
+//     width: 80,
+//     backgroundColor: 'white',
+//     // textAlign: 'center',
+//     justifyContent: 'center',
+//     alignSelf: 'center',
+//     marginTop: 30,
+//   },
+// }); */
+}

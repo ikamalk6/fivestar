@@ -7,6 +7,7 @@ import {Formik} from 'formik';
 import styles from '../signUpScreen/style';
 import {useSelector, useDispatch} from 'react-redux';
 import SignUpApiCall from './action';
+import CustomTextInput from '../../components/customTextInput';
 
 export default function SignUp() {
   const dispatch = useDispatch<any>();
@@ -27,24 +28,24 @@ export default function SignUp() {
         eyeToggle: true,
         countryCode,
       }}
-      // onSubmit={(values, {resetForm}) => {
-      //   // Alert.alert('SignUp successfull');
-      //   console.log('on Submit ', values);
-      //   dispatch(SingUpApiCall(values));
-      //   navigation.navigate('ValidateOtp');
-
-      //   resetForm();
-      // }}
       onSubmit={values => {
-        dispatch(SignUpApiCall(values));
         console.log('on Submit', values);
+        dispatch(SignUpApiCall(values));
         navigation.navigate('ValidateOtp');
       }}
       validationSchema={yup.object().shape({
-        name: yup.string().min(2, 'too short').max(30, 'too long').required(),
-        phoneNo: yup.number().min(10).required(),
-        email: yup.string().email().required(),
-        password: yup.string().min(6, 'too short').required(),
+        name: yup.string().min(3, 'too short').max(30, 'too long').required(),
+        phoneNo: yup
+          .number()
+          .min(1000000000, 'ENTER_VALID_PHONE_NUMBER')
+          .max(9999999999, 'ENTER_VALID_PHONE_NUMBER')
+          .required(),
+        email: yup.string().email('enter valid email').required(),
+        password: yup
+          .string()
+          .min(6, 'too short')
+          .max(15, 'too long')
+          .required(),
         checkToggle: yup.boolean().equals([true], 'must agree'),
       })}>
       {({
@@ -55,6 +56,7 @@ export default function SignUp() {
         handleSubmit,
         isValid,
         setFieldValue,
+        handleBlur,
       }) => (
         <View style={styles.main}>
           <ScrollView>
@@ -75,95 +77,44 @@ export default function SignUp() {
                 <Text style={styles.started}>{'Signup to get started'}</Text>
               </View>
 
-              <TextInput
-                style={styles.inputText}
-                label={'Full Name*'}
-                outlineColor={'#ffffff'}
-                activeOutlineColor={'#ffffff'}
+              <CustomTextInput
                 value={values.name}
-                mode="outlined"
-                selectionColor="#ffffff"
-                dense={true}
+                label={'Full Name*'}
                 onChangeText={handleChange('name')}
-                theme={{
-                  colors: {
-                    placeholder: 'white',
-                    text: '#44C2E3',
-                    primary: 'white',
-                    background: '#000000',
-                  },
-                }}
+                onBlur={handleBlur('name')}
               />
 
               {touched.name && errors.name && (
                 <Text style={styles.warning}>{errors.name}</Text>
               )}
-              <TextInput
-                label={'Mobile Number*'}
-                style={styles.inputText}
-                outlineColor={'#ffffff'}
-                activeOutlineColor={'#ffffff'}
+              <CustomTextInput
+                label={'Mobile Number'}
                 value={values.phoneNo}
-                dense={true}
                 keyboardType="numeric"
-                mode="outlined"
-                selectionColor="#ffffff"
+                onBlur={handleBlur('phoneNo')}
                 onChangeText={handleChange('phoneNo')}
-                theme={{
-                  colors: {
-                    placeholder: 'white',
-                    text: '#44C2E3',
-                    primary: 'white',
-                    background: '#000000',
-                  },
-                }}
               />
 
               {touched.phoneNo && errors.phoneNo && (
                 <Text style={styles.warning}>{errors.phoneNo} </Text>
               )}
-              <TextInput
-                label={'Email*'}
-                style={styles.inputText}
-                outlineColor={'#ffffff'}
-                activeOutlineColor={'#ffffff'}
+
+              <CustomTextInput
                 value={values.email}
-                dense={true}
-                mode="outlined"
-                selectionColor="#ffffff"
+                label={'Email*'}
                 onChangeText={handleChange('email')}
-                theme={{
-                  colors: {
-                    placeholder: 'white',
-                    text: '#44C2E3',
-                    primary: 'white',
-                    background: '#000000',
-                  },
-                }}
+                onBlur={handleBlur('email')}
               />
               {touched.email && errors.email && (
                 <Text style={styles.warning}>{errors.email}</Text>
               )}
               <View style={styles.passBox}>
-                <TextInput
+                <CustomTextInput
                   label={'Password*'}
-                  style={styles.inputText}
-                  secureTextEntry={values.eyeToggle ? true : false}
-                  dense={true}
-                  outlineColor={'#ffffff'}
-                  activeOutlineColor={'#ffffff'}
                   value={values.password}
-                  mode="outlined"
-                  selectionColor="#ffffff"
+                  secureTextEntry={values.eyeToggle ? true : false}
                   onChangeText={handleChange('password')}
-                  theme={{
-                    colors: {
-                      placeholder: 'white',
-                      text: '#44C2E3',
-                      primary: 'white',
-                      background: '#000000',
-                    },
-                  }}
+                  onBlur={handleBlur('password')}
                 />
 
                 <TouchableOpacity

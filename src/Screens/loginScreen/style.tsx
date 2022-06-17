@@ -142,5 +142,11 @@ const styles = StyleSheet.create({
     marginRight: 7,
   },
   passBox: {justifyContent: 'space-between'},
+  signUptxt: {
+    color: '#44C2E3',
+    fontStyle: 'italic',
+    fontWeight: '900',
+    fontSize: 18,
+  },
 });
 export default styles;

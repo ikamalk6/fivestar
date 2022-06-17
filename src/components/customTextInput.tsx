@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import React from 'react';
 import {TextInput} from 'react-native-paper';
+import COLOR from '../utils/colors';
 
 export default function CustomTextInput(props: any) {
   const {rightComponent} = props;
@@ -8,18 +9,18 @@ export default function CustomTextInput(props: any) {
     <>
       <TextInput
         {...props}
-        outlineColor={'#ffffff'}
+        outlineColor={COLOR.white}
         style={styles.inputText}
-        activeOutlineColor={'#ffffff'}
+        activeOutlineColor={COLOR.white}
         mode="outlined"
-        selectionColor="#ffffff"
+        selectionColor={COLOR.white}
         dense={true}
         theme={{
           colors: {
-            placeholder: 'white',
-            text: '#44C2E3',
-            primary: 'white',
-            background: '#000000',
+            placeholder: COLOR.white,
+            text: COLOR.sky,
+            primary: COLOR.white,
+            background: COLOR.black,
           },
         }}
       />

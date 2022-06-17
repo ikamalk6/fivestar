@@ -191,7 +191,7 @@ export default function LoginScreen() {
                 onPress={() => {
                   navigation.navigate('SignUp');
                 }}>
-                <Text style={{color: '#44C2E3'}}>{'Sign Up'}</Text>
+                <Text style={styles.signUptxt}>{'Sign Up'}</Text>
               </TouchableOpacity>
             </View>
           </View>
