@@ -1,8 +1,9 @@
 import {StyleSheet} from 'react-native';
+import COLOR from '../../utils/colors';
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: COLOR.black,
   },
   inner: {
     marginTop: 44,
@@ -14,19 +15,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   create: {
-    color: '#ffffff',
+    color: COLOR.white,
     fontWeight: '900',
     fontSize: 24,
     fontStyle: 'italic',
     marginVertical: 10,
   },
   started: {
-    color: '#ffffff',
+    color: COLOR.white,
     marginBottom: 15,
   },
   box: {
-    height: 22,
-    width: 22,
+    height: 20,
+    width: 20,
   },
   terms: {
     marginTop: 15,
@@ -34,17 +35,17 @@ const styles = StyleSheet.create({
   },
   termText: {
     paddingLeft: 10,
-    color: '#ffffff',
+    color: COLOR.white,
     fontSize: 13,
   },
   toe: {
-    color: '#44C2E3',
+    color: COLOR.sky,
     lineHeight: 18,
     fontWeight: 'bold',
     fontSize: 13,
   },
   button: {
-    backgroundColor: '#44C2E3',
+    backgroundColor: COLOR.sky,
     borderRadius: 5,
     height: 48,
     width: '100%',
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   buttonDisabled: {
-    backgroundColor: '#282828',
+    backgroundColor: COLOR.mud,
     borderRadius: 5,
     height: 48,
     width: '100%',
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
   buttonTextDisabled: {
     fontSize: 16,
     textAlign: 'center',
-    color: '#595959',
+    color: COLOR.grey,
     fontWeight: '900',
     fontStyle: 'italic',
   },
@@ -77,9 +78,9 @@ const styles = StyleSheet.create({
   },
   warning: {
     fontSize: 12,
-    color: 'red',
+    color: COLOR.dullRed,
     bottom: 3,
-    // marginLeft: 20,
+    marginLeft: 10,
   },
   orStyle: {
     flexDirection: 'row',
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   google: {
     // margin: 20,
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
+    backgroundColor: COLOR.white,
     width: '100%',
     height: 48,
     justifyContent: 'center',
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: 'row',
 
-    backgroundColor: '#ffffff',
+    backgroundColor: COLOR.white,
 
     width: '100%',
     height: 48,
@@ -140,7 +141,6 @@ const styles = StyleSheet.create({
     width: 20,
     position: 'absolute',
     resizeMode: 'contain',
-    // marginTop: 35,
     right: 30,
     bottom: 24,
   },
@@ -149,13 +149,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   already: {
-    color: '#ffffff',
+    color: COLOR.white,
     fontWeight: 'bold',
     fontSize: 15,
   },
   sign: {
     fontSize: 16,
-    color: '#44C2E3',
+    color: COLOR.sky,
     fontStyle: 'italic',
     fontWeight: '900',
   },

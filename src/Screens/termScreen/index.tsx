@@ -49,10 +49,6 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontSize: 22,
     fontStyle: 'italic',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // alignContent: 'center',
-    // textAlign: 'center',
     marginLeft: 40,
   },
   terms1: {

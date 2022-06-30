@@ -47,8 +47,7 @@ const ValidateOtpApiCall = (userId: any,otp: string,countryCode: any,phoneNo: an
       },
     })
       .then(resp => {
-
-        return resp;        
+         return resp;        
       })
       .catch(err => {
         console.log('error', err);

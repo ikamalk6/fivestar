@@ -8,66 +8,61 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import COLOR from '../../utils/colors';
+import {IMAGE} from '../../utils/images';
+import GoBack from '../../components/goBackBtn';
+import {STRINGNAME} from '../../utils/string';
 
 export default function ChoicePage() {
-  const [isDisabled, SetisDisabled] = useState(true);
+  const [optedOption, setOptedOption] = useState('');
+
+  console.log('optedOption', optedOption);
 
   const navigation = useNavigation<any>();
+  const diss = (choice: any) => {
+    if (setOptedOption != choice) setOptedOption(choice);
+  };
+
   return (
     <View style={styles.container}>
+      <GoBack />
+
+      <Text style={styles.question}>{STRINGNAME.WHO_ARE_YOU}</Text>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('ValidateOtp');
-        }}>
+          diss('Fan');
+        }}
+        style={styles.fanView}>
         <Image
-          style={styles.arrow}
-          source={require('../../assets/image/lefta.png')}
+          style={optedOption === 'Fan' ? styles.fan : styles.fanDis}
+          source={IMAGE.fan}
         />
       </TouchableOpacity>
-      <Text style={styles.question}>{'Who are You?'}</Text>
+      <Text style={styles.fanTxt}>{STRINGNAME.FAN}</Text>
       <TouchableOpacity
         onPress={() => {
-          SetisDisabled(!isDisabled);
+          diss('Athelete');
         }}
-        style={{
-          marginVertical: 20,
-          borderWidth: 2,
-          borderColor: '#1A1A1B',
-          borderRadius: 5,
-        }}>
-        {isDisabled ? (
-          <ImageBackground
-            style={styles.fan}
-            source={require('../../assets/image/fan.png')}
-          />
+        style={styles.fanView}>
+        {optedOption == 'Athelete' ? (
+          <Image style={styles.fan} source={IMAGE.athlete} />
         ) : (
-          <ImageBackground
-            style={styles.fan}
-            source={require('../../assets/image/athl.png')}
-          />
+          <Image style={styles.fanDis} source={IMAGE.athlete} />
         )}
       </TouchableOpacity>
       <TouchableOpacity
-        style={{
-          marginVertical: 20,
-          borderWidth: 2,
-          borderColor: '#1A1A1B',
-          borderRadius: 5,
-        }}>
-        <ImageBackground
-          style={styles.fan}
-          source={require('../../assets/image/athl.png')}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        disabled={isDisabled}
+        disabled={optedOption != 'Fan' && optedOption != 'Athelete'}
         onPress={() => {
-          navigation.navigate('CompleteProfile');
+          navigation.navigate(STRINGNAME.COMPLETE_PROFILE);
         }}
-        style={{marginTop: 330}}>
+        style={styles.btnView}>
         <Image
           style={styles.button}
-          source={require('../../assets/image/ButtonOn.png')}
+          source={
+            optedOption == 'Fan' || optedOption == 'Athelete'
+              ? IMAGE.nxtBtnEnable
+              : IMAGE.nxtBtnDisable
+          }
         />
       </TouchableOpacity>
     </View>
@@ -76,7 +71,7 @@ export default function ChoicePage() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#000000',
+    backgroundColor: COLOR.black,
     flex: 1,
     padding: 10,
     paddingTop: 60,
@@ -86,20 +81,45 @@ const styles = StyleSheet.create({
     width: 18,
   },
   question: {
-    color: '#ffffff',
+    color: COLOR.white,
     fontSize: 26,
     fontStyle: 'italic',
     fontWeight: '900',
     marginTop: 10,
   },
   fan: {
-    height: 104,
+    height: 100,
     width: '100%',
+    borderColor: COLOR.sky,
+    borderWidth: 2,
+    borderRadius: 5,
+  },
+  fanDis: {
+    height: 100,
+    width: '100%',
+    borderWidth: 2,
+    borderColor: COLOR.dark_grey,
+    borderRadius: 5,
   },
   button: {
-    height: 40,
+    height: 50,
     width: '96%',
-    borderRadius: 5,
     alignSelf: 'center',
+  },
+  fanTxt: {
+    fontWeight: '900',
+    fontStyle: 'italic',
+    color: COLOR.white,
+    fontSize: 27,
+    bottom: 85,
+    left: 208,
+  },
+  fanView: {
+    marginVertical: 20,
+    height: 100,
+    width: '100%',
+  },
+  btnView: {
+    marginTop: 330,
   },
 });

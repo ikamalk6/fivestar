@@ -4,11 +4,12 @@ import {TextInput} from 'react-native-paper';
 import COLOR from '../utils/colors';
 
 export default function CustomTextInput(props: any) {
-  const {rightComponent} = props;
+  let {right} = props;
   return (
     <>
       <TextInput
         {...props}
+        right={null}
         outlineColor={COLOR.white}
         style={styles.inputText}
         activeOutlineColor={COLOR.white}
@@ -24,7 +25,7 @@ export default function CustomTextInput(props: any) {
           },
         }}
       />
-      {rightComponent && rightComponent()}
+      {right !== undefined ? right() : null}
     </>
   );
 }

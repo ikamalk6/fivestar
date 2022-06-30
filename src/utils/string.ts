@@ -1,0 +1,26 @@
+export const STRINGNAME = {
+  FIND_ACCOUNT: 'Find Your Account',
+  SELECT_OPTION: '\nSelect an option to find your account\n\n',
+  CORRECT_NUMBER_MSG:
+    'Please enter the correct mobile number \nassociated with your account \n\n',
+  CORRECT_EMAIL_MSG:
+    'Please enter the correct username associated \nwith your account\n\n',
+  MOBILE_EMAIL: 'Mobile Number / Email ',
+  PASSWORD: 'Password*',
+  FULL_NAME: 'Full Name*',
+  USER_NAME: 'User name',
+  MOBILE_NUMBER: 'Mobile Number*',
+  EMAIL: 'Email*',
+  CREATE_ACCOUT: 'Create Account',
+  OR: 'OR',
+  AGREE: 'I agree to the',
+  TERMS: 'Terms of Use*',
+  SIGNIN_HEADING: 'Sign In Using Your Mobile Number / Email',
+  CREATE_ACCOUNT: 'Create Account',
+  SIGNUP: 'Signup to get started',
+  ALREADY: 'Already a user',
+  SIGNIN: 'Sign In',
+  WHO_ARE_YOU: 'Who are You?',
+  FAN: 'FAN',
+  COMPLETE_PROFILE: 'CompleteProfile',
+};

@@ -16,10 +16,12 @@ export default function SplashScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.timing(fadeAnim, {
+    Animated.spring(fadeAnim, {
       toValue: 1,
-      duration: 2000,
-      useNativeDriver: 'true',
+      // duration: 2000,
+      bounciness: 20,
+      speed: 2,
+      useNativeDriver: true,
     }).start();
   }, [fadeAnim]);
 
@@ -51,10 +53,6 @@ export default function SplashScreen() {
               scale: fadeAnim,
             },
           ],
-          // width: 100,
-          // height: 100,
-          // borderWidth: 10,
-          // backgroundColor: 'red',
           position: 'absolute',
         }}>
         <Image
@@ -77,11 +75,10 @@ const styles = StyleSheet.create({
     zIndex: 1,
     height: height,
     width: width,
-    // resizeMode: 'contain',
   },
   five: {
     height: 70,
-    width: 320,
+    width: 310,
     zIndex: 2,
     position: 'absolute',
     alignSelf: 'center',
@@ -92,11 +89,8 @@ const styles = StyleSheet.create({
     width: 99,
     zIndex: 3,
     top: 65,
-    marginLeft: 207,
-    marginTop: 3,
-
-    // alignSelf: 'center',
-
+    marginLeft: 206,
+    marginTop: 4,
     position: 'absolute',
   },
 });

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, TextInput} from 'react-native';
+import {StyleSheet, TextInput} from 'react-native';
 import React, {useState} from 'react';
 
 export default function OtpInput(props: any) {

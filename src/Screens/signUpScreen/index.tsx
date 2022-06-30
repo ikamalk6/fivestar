@@ -1,33 +1,25 @@
 import {Text, View, TouchableOpacity, Image, ScrollView} from 'react-native';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {TextInput} from 'react-native-paper';
 import * as yup from 'yup';
 import {Formik} from 'formik';
+import SignUpApiCall from './action';
 import styles from '../signUpScreen/style';
 import {useSelector, useDispatch} from 'react-redux';
-import SignUpApiCall from './action';
+import {useNavigation} from '@react-navigation/native';
 import CustomTextInput from '../../components/customTextInput';
+import {SignupValuesModal} from '../../utils/modals';
 
 export default function SignUp() {
   const dispatch = useDispatch<any>();
-  const {name, email, password, countryCode, phoneNo} = useSelector<any>(
-    store => store.SignUpReducer,
-  );
+  // const {name, email, password, countryCode, phoneNo} = useSelector(
+  //   (store: any) => store.SignUpReducer,
+  // );
 
   const navigation = useNavigation<any>();
 
   return (
     <Formik
-      initialValues={{
-        name,
-        phoneNo,
-        email,
-        password,
-        checkToggle: false,
-        eyeToggle: true,
-        countryCode,
-      }}
+      initialValues={new SignupValuesModal()}
       onSubmit={values => {
         console.log('on Submit', values);
         dispatch(SignUpApiCall(values));
@@ -50,11 +42,11 @@ export default function SignUp() {
       })}>
       {({
         values,
-        handleChange,
         errors,
         touched,
-        handleSubmit,
         isValid,
+        handleChange,
+        handleSubmit,
         setFieldValue,
         handleBlur,
       }) => (
@@ -139,8 +131,6 @@ export default function SignUp() {
               )}
               <View style={[styles.terms]}>
                 <TouchableOpacity
-                  value={values.checkToggle}
-                  onChange={handleChange('checkToggle')}
                   onPress={() => {
                     setFieldValue('checkToggle', !values.checkToggle);
                   }}>

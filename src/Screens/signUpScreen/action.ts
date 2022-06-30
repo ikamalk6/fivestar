@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { SignupValuesModal } from '../../utils/modals';
 
-const SignUpApiCall = values => {
-  console.log('SignUpApiCall')
+const SignUpApiCall = (values:SignupValuesModal) => {
 
-  return (dispatch) => {
+
+  return (dispatch:any) => {
     axios({
       method: 'post',
       url: 'https://fivestardevapi.appskeeper.in/api/v1/user/signup',

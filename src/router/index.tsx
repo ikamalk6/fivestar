@@ -9,6 +9,9 @@ import ValidateOtp from '../screens/validateOtp';
 import ChoicePage from '../screens/choicePage';
 import CompleteProfile from '../screens/completeProfile';
 import {StatusBar} from 'react-native';
+import FindAccount from '../screens/findAccount';
+import FindMobileAccount from '../screens/findAccount/withNumber';
+import FindEmailAccount from '../screens/findAccount/withEmail';
 
 export default function NavigationScreen() {
   const Stack = createNativeStackNavigator();
@@ -16,7 +19,7 @@ export default function NavigationScreen() {
     <NavigationContainer>
       <StatusBar barStyle={'light-content'} />
       <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
           options={{
@@ -42,7 +45,7 @@ export default function NavigationScreen() {
           options={{headerShown: false}}
           name="ValidateOtp"
           component={ValidateOtp}
-        />
+        /> */}
         <Stack.Screen
           name="ChoicePage"
           component={ChoicePage}
@@ -53,6 +56,9 @@ export default function NavigationScreen() {
           component={CompleteProfile}
           // options={{headerShown: false}}
         />
+        <Stack.Screen name="FindAccount" component={FindAccount} />
+        {/* <Stack.Screen name="FindMobileAccount" component={FindMobileAccount} /> */}
+        <Stack.Screen name="FindEmailAccount" component={FindEmailAccount} />
       </Stack.Navigator>
     </NavigationContainer>
   );

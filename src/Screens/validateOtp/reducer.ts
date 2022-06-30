@@ -1,7 +1,7 @@
 const initialState = {};
 
 const ValidateOtpReducer = (state = initialState, action) => {
-  console.log('actionka data ',action)
+
   
   const {type, payload} = action;
 
