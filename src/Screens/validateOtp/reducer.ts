@@ -1,8 +1,6 @@
 const initialState = {};
 
-const ValidateOtpReducer = (state = initialState, action) => {
-
-  
+const ValidateOtpReducer = (state = initialState, action: any) => {
   const {type, payload} = action;
 
   switch (type) {

@@ -1,5 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import COLOR from '../../utils/colors';
+import {normalize} from '../../utils/dimensions';
 
 const styles = StyleSheet.create({
   container: {
@@ -7,8 +8,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mainView: {
-    marginTop: 30,
-    padding: 20,
+    marginTop: Platform.OS === 'ios' ? normalize(35) : 0,
+    padding: normalize(18),
   },
   heading: {
     color: COLOR.white,

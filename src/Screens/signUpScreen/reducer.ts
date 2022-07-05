@@ -4,7 +4,7 @@ const initialState = {
   userId: '',
 };
 
-const SignUpReducer = (state = initialState, action) => {
+const SignUpReducer = (state = initialState, action: any) => {
   const {type, payload} = action;
 
   switch (type) {

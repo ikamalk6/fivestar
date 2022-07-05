@@ -108,7 +108,11 @@ export default function LoginScreen() {
               <Text style={styles.forgot}>{'Forgot Password?'}</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={isValid ? styles.buttonValid : styles.buttonInvalid}
+              style={
+                isValid && values.email != '' && values.password != ''
+                  ? styles.buttonValid
+                  : styles.buttonInvalid
+              }
               disabled={!isValid}
               onPress={handleSubmit}>
               <Text

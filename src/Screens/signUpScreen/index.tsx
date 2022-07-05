@@ -72,6 +72,7 @@ export default function SignUp() {
               <CustomTextInput
                 value={values.name}
                 label={'Full Name*'}
+                // labelStyle={{width: '80%'}}
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
               />

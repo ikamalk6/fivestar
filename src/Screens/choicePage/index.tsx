@@ -1,10 +1,18 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import COLOR from '../../utils/colors';
 import {IMAGE} from '../../utils/images';
 import GoBack from '../../components/goBackBtn';
 import {STRINGNAME} from '../../utils/string';
+import {normalize} from '../../utils/dimensions';
 
 export default function ChoicePage() {
   const [optedOption, setOptedOption] = useState('');
@@ -18,33 +26,46 @@ export default function ChoicePage() {
 
   return (
     <View style={styles.container}>
-      <GoBack />
+      <View>
+        <GoBack />
 
-      <Text style={styles.question}>{STRINGNAME.WHO_ARE_YOU}</Text>
+        <Text style={styles.question}>{STRINGNAME.WHO_ARE_YOU}</Text>
+
+        <TouchableOpacity
+          onPress={() => {
+            diss(STRINGNAME.FAN);
+          }}
+          style={styles.fanView}>
+          <Image
+            style={optedOption === STRINGNAME.FAN ? styles.fan : styles.fanDis}
+            source={IMAGE.fan}
+          />
+          {/*  */}
+          <Text
+            style={
+              optedOption === STRINGNAME.FAN ? styles.fanTxt1 : styles.fanTxt
+            }>
+            {STRINGNAME.FAN}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            diss(STRINGNAME.ATHLETE);
+          }}
+          style={styles.fanView}>
+          <Image
+            style={
+              optedOption === STRINGNAME.ATHLETE ? styles.fan : styles.fanDis
+            }
+            source={IMAGE.athlete}
+          />
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity
-        onPress={() => {
-          diss('Fan');
-        }}
-        style={styles.fanView}>
-        <Image
-          style={optedOption === 'Fan' ? styles.fan : styles.fanDis}
-          source={IMAGE.fan}
-        />
-      </TouchableOpacity>
-      <Text style={styles.fanTxt}>{STRINGNAME.FAN}</Text>
-      <TouchableOpacity
-        onPress={() => {
-          diss('Athelete');
-        }}
-        style={styles.fanView}>
-        {optedOption == 'Athelete' ? (
-          <Image style={styles.fan} source={IMAGE.athlete} />
-        ) : (
-          <Image style={styles.fanDis} source={IMAGE.athlete} />
-        )}
-      </TouchableOpacity>
-      <TouchableOpacity
-        disabled={optedOption != 'Fan' && optedOption != 'Athelete'}
+        disabled={
+          optedOption != STRINGNAME.FAN && optedOption != STRINGNAME.ATHLETE
+        }
         onPress={() => {
           navigation.navigate(STRINGNAME.COMPLETE_PROFILE);
         }}
@@ -52,7 +73,7 @@ export default function ChoicePage() {
         <Image
           style={styles.button}
           source={
-            optedOption == 'Fan' || optedOption == 'Athelete'
+            optedOption == STRINGNAME.FAN || optedOption == STRINGNAME.ATHLETE
               ? IMAGE.nxtBtnEnable
               : IMAGE.nxtBtnDisable
           }
@@ -66,13 +87,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLOR.black,
     flex: 1,
-    padding: 10,
-    paddingTop: 60,
+    padding: normalize(10),
+    paddingTop: Platform.OS === 'ios' ? normalize(60) : normalize(10),
   },
-  arrow: {
-    height: 18,
-    width: 18,
-  },
+
   question: {
     color: COLOR.white,
     fontSize: 26,
@@ -104,7 +122,15 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: COLOR.white,
     fontSize: 27,
-    bottom: 85,
+    bottom: 65,
+    left: 208,
+  },
+  fanTxt1: {
+    fontWeight: '900',
+    fontStyle: 'italic',
+    color: COLOR.sky,
+    fontSize: 27,
+    bottom: 65,
     left: 208,
   },
   fanView: {
@@ -113,6 +139,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   btnView: {
-    marginTop: 330,
+    flexDirection: 'column-reverse',
+    flex: 1,
+    marginBottom: normalize(10),
   },
 });

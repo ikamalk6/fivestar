@@ -13,52 +13,56 @@ import FindAccount from '../screens/findAccount';
 import FindMobileAccount from '../screens/findAccount/withNumber';
 import FindEmailAccount from '../screens/findAccount/withEmail';
 
+import {STRINGNAME} from '../utils/string';
+import ResetPassword from '../screens/resetPassword';
+
 export default function NavigationScreen() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
       <StatusBar barStyle={'light-content'} />
       <Stack.Navigator>
-        {/* <Stack.Screen
-          name="SplashScreen"
+        <Stack.Screen
+          name={STRINGNAME.SPLASH_SCREEN}
           component={SplashScreen}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="LoginScreen"
+          name={STRINGNAME.LOGIN_SCREEN}
           component={LoginScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="SignUp"
+          name={STRINGNAME.SIGNUP}
           component={SignUp}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Terms"
+          name={STRINGNAME.TERMS}
           component={Terms}
           options={{headerShown: false}}
         />
         <Stack.Screen
           options={{headerShown: false}}
-          name="ValidateOtp"
+          name={STRINGNAME.VALIDATEOTP}
           component={ValidateOtp}
-        /> */}
+        />
         <Stack.Screen
-          name="ChoicePage"
+          name={STRINGNAME.CHOICE_PAGE}
           component={ChoicePage}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="CompleteProfile"
+          name={STRINGNAME.COMPLETE_PROFILE}
           component={CompleteProfile}
-          // options={{headerShown: false}}
+          options={{headerShown: false}}
         />
-        <Stack.Screen name="FindAccount" component={FindAccount} />
+        {/* <Stack.Screen name="FindAccount" component={FindAccount} /> */}
         {/* <Stack.Screen name="FindMobileAccount" component={FindMobileAccount} /> */}
-        <Stack.Screen name="FindEmailAccount" component={FindEmailAccount} />
+        {/* <Stack.Screen name="FindEmailAccount" component={FindEmailAccount} /> */}
+        <Stack.Screen name="Reset" component={ResetPassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );

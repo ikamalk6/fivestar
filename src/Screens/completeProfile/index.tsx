@@ -1,33 +1,51 @@
 import {
-  Image,
-  ScrollView,
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
-  Button,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-import ImagePicker from 'react-native-image-crop-picker';
 import DatePicker from 'react-native-date-picker';
+import ImagePicker from 'react-native-image-crop-picker';
+import Modal from 'react-native-modal';
 
-import CustomTextInput from '../../components/customTextInput';
-import {IMAGE} from '../../utils/images';
 import COLOR from '../../utils/colors';
+import {IMAGE} from '../../utils/images';
+import CustomTextInput from '../../components/customTextInput';
+import {STRINGNAME} from '../../utils/string';
+import {normalize} from '../../utils/dimensions';
+import SelectIdentity from '../../components/selectIdentity';
 
 export default function CompleteProfile() {
   const [cover, setCover] = useState('');
   const [profile, setProfile] = useState('');
+  const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   const [chooseDate, setChooseDate] = useState('Date of Birth');
-  const [open, setOpen] = useState(false);
+  const [identity, setIdentity] = useState('Select your identity');
+  const [modalVisible, setModalVisible] = useState(false);
+  const openModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.head}>{'Hi John! \nTell us about yourself'}</Text>
+      <Text style={styles.head}>{STRINGNAME.HI_JOHN}</Text>
+
+      <Modal isVisible={modalVisible}>
+        <SelectIdentity
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          identity={identity}
+          setIdentity={setIdentity}></SelectIdentity>
+      </Modal>
+
       <ScrollView>
         <View style={styles.innerView}>
           <TouchableOpacity
+            style={{height: normalize(200), width: normalize(335)}}
             onPress={() =>
               ImagePicker.openPicker({
                 cropping: true,
@@ -44,12 +62,7 @@ export default function CompleteProfile() {
             <Image style={styles.miniC} source={IMAGE.cam} />
           </TouchableOpacity>
           <TouchableOpacity
-            style={{
-              position: 'absolute',
-              height: 265,
-              justifyContent: 'flex-end',
-              zIndex: 1,
-            }}
+            style={styles.profileView}
             onPress={() =>
               ImagePicker.openPicker({
                 cropping: true,
@@ -68,7 +81,28 @@ export default function CompleteProfile() {
         </View>
         <View>
           <CustomTextInput label={'Change your Username'} />
-          <CustomTextInput label={'Select Your Identity'} />
+          <TouchableOpacity
+            onPress={openModal}
+            style={{
+              height: 40,
+              width: 355,
+              borderWidth: 1,
+              borderColor: COLOR.white,
+            }}>
+            <Text style={{color: COLOR.white}}>{identity}</Text>
+          </TouchableOpacity>
+          {/* <CustomTextInput
+            label={'Select your Identity'}
+            value={identity}
+            right={() => (
+              <TouchableOpacity onPress={openModal}>
+                <Image
+                  source={IMAGE.calender}
+                  style={{height: 20, width: 20, bottom: 30}}
+                />
+              </TouchableOpacity>
+            )}
+          /> */}
           <CustomTextInput
             label={'DOB'}
             value={chooseDate}
@@ -77,7 +111,7 @@ export default function CompleteProfile() {
                 style={{left: 320, position: 'absolute', top: 160}}
                 onPress={() => setOpen(true)}>
                 <Image
-                  source={require('../../assets/image/Calendar.png')}
+                  source={IMAGE.calender}
                   style={{height: 20, width: 20}}
                 />
                 <DatePicker
@@ -111,11 +145,8 @@ export default function CompleteProfile() {
           <CustomTextInput label={'Sports I Watch'} />
         </View>
       </ScrollView>
-      <TouchableOpacity style={{borderRadius: 7}}>
-        <Image
-          style={{width: '100%', height: 40}}
-          source={require('../../assets/image/ButtonOn.png')}
-        />
+      <TouchableOpacity style={{borderRadius: 7}} onPress={openModal}>
+        <Image style={{width: '100%', height: 40}} source={IMAGE.saveDisable} />
       </TouchableOpacity>
     </View>
   );
@@ -123,8 +154,8 @@ export default function CompleteProfile() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: '#000000',
+    paddingHorizontal: normalize(15),
+    backgroundColor: COLOR.black,
     flex: 1,
   },
   head: {
@@ -135,37 +166,46 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingTop: 40,
   },
-  innerView: {marginBottom: 30},
+  innerView: {
+    marginBottom: normalize(35),
+  },
   coverStyl: {
-    height: 220,
-    width: '100%',
+    height: normalize(200),
+    width: normalize(335),
     borderWidth: 1,
     borderColor: COLOR.white,
     borderRadius: 5,
-    backgroundColor: '#1B1B1B',
+    backgroundColor: COLOR.light_Black,
   },
   miniC: {
-    height: 30,
-    width: 30,
+    height: 24,
+    width: 24,
     alignSelf: 'center',
     bottom: 120,
     opacity: 0.6,
   },
   profStyl: {
-    height: 90,
-    width: 120,
+    height: normalize(98),
+    width: normalize(97.6),
     borderWidth: 1,
     borderColor: COLOR.white,
     left: 20,
     borderRadius: 5,
     top: 20,
-    backgroundColor: '#1B1B1B',
+    backgroundColor: COLOR.light_Black,
   },
   miniCp: {
     height: 20,
     width: 20,
-    left: 70,
-    bottom: 35,
+    left: 60,
+    bottom: 38,
     opacity: 0.6,
+  },
+  profileView: {
+    zIndex: 1,
+    height: normalize(98),
+    width: normalize(97.6),
+    top: 130,
+    position: 'absolute',
   },
 });

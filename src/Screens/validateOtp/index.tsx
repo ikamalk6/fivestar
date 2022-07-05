@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   mainView: {
     flex: 1,
 
-    backgroundColor: '#000000',
+    backgroundColor: COLOR.black,
   },
   innerView: {
     flex: 1,

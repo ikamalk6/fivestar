@@ -1,6 +1,5 @@
 // import axios from 'axios';
 
-
 // const ValidateOtpApiCall = (str:string, setModalVisible:any, isModalVisible:boolean )=> {
 //   console.log('otpaanenvala',str)
 //   return (dispatch, getState:any) => {
@@ -32,26 +31,30 @@
 
 // export default ValidateOtpApiCall;
 
-
 import axios from 'axios';
 
-const ValidateOtpApiCall = (userId: any,otp: string,countryCode: any,phoneNo: any)=> {
-      return axios({
-      method: 'post',
-      url: 'https://fivestardevapi.appskeeper.in/api/v1/user/verify-only-otp',
-      data: {
-        userId,
-        otp,
-        countryCode,
-        phoneNo,
-      },
+const ValidateOtpApiCall = (
+  userId: any,
+  otp: string,
+  countryCode: any,
+  phoneNo: any,
+) => {
+  return axios({
+    method: 'post',
+    url: 'https://fivestardevapi.appskeeper.in/api/v1/user/verify-otp',
+    data: {
+      userId,
+      otp,
+      countryCode,
+      phoneNo,
+    },
+  })
+    .then(resp => {
+      return resp;
     })
-      .then(resp => {
-         return resp;        
-      })
-      .catch(err => {
-        console.log('error', err);
-      });
+    .catch(err => {
+      console.log('error', err);
+    });
 };
 
 export default ValidateOtpApiCall;

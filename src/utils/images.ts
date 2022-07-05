@@ -16,4 +16,6 @@ export const IMAGE = {
   getCodeEnable: require('../assets/image/getCodeActive.png'),
   fan: require('../assets/image/fan.png'),
   athlete: require('../assets/image/athl.png'),
+  calender: require('../assets/image/Calendar.png'),
+  cancelButton: require('../assets/image/ic_cancel.png'),
 };
