@@ -1,25 +1,21 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import COLOR from '../../utils/colors';
+import {normalize, vh, vw} from '../../utils/dimensions';
 const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: COLOR.black,
+    paddingTop: Platform.OS == 'ios' ? normalize(40) : normalize(10),
+    paddingHorizontal: normalize(20),
   },
-  inner: {
-    marginTop: 44,
-    margin: 20,
-  },
-  inputText: {
-    marginVertical: 10,
-    borderRadius: 5,
-    justifyContent: 'center',
-  },
+  inner: {},
+
   create: {
     color: COLOR.white,
     fontWeight: '900',
     fontSize: 24,
     fontStyle: 'italic',
-    marginVertical: 10,
+    marginVertical: normalize(10),
   },
   started: {
     color: COLOR.white,
@@ -47,20 +43,20 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: COLOR.sky,
     borderRadius: 5,
-    height: 48,
+    height: vh(48),
     width: '100%',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 30,
+    marginTop: normalize(30),
   },
   buttonDisabled: {
     backgroundColor: COLOR.mud,
     borderRadius: 5,
-    height: 48,
+    height: vh(48),
     width: '100%',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 30,
+    marginTop: normalize(30),
   },
   buttonTextDisabled: {
     fontSize: 16,
@@ -80,7 +76,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: COLOR.dullRed,
     bottom: 3,
-    marginLeft: 10,
+    marginLeft: 8,
   },
   orStyle: {
     flexDirection: 'row',
@@ -91,7 +87,7 @@ const styles = StyleSheet.create({
   line: {
     borderBottomWidth: 1,
     borderBottomColor: 'grey',
-    width: 155,
+    width: vw(155),
   },
   orButton: {
     fontSize: 16,
@@ -106,7 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: COLOR.white,
     width: '100%',
-    height: 48,
+    height: vh(48),
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -115,11 +111,9 @@ const styles = StyleSheet.create({
   apple: {
     margin: 20,
     flexDirection: 'row',
-
     backgroundColor: COLOR.white,
-
     width: '100%',
-    height: 48,
+    height: vh(48),
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -136,13 +130,35 @@ const styles = StyleSheet.create({
   passBox: {
     justifyContent: 'space-between',
   },
-  eye: {
-    height: 12,
-    width: 20,
+  // eyeBttn: {
+  //   backgroundColor: 'red',
+  //   height: vh(40),
+  //   // position: 'absolute',
+  //   // resizeMode: 'contain',
+  //   // right: 30,
+  //   // width: vw(20),
+  //   // bottom: 30,
+  // },
+  // eye: {
+  //   height: vh(20),
+  //   width: vw(20),
+  //   position: 'absolute',
+  //   resizeMode: 'contain',
+  //   right: 30,
+  //   bottom: 30,
+  // },
+  eyeBttn: {
+    height: normalize(20),
+    width: normalize(20),
+    bottom: normalize(28),
     position: 'absolute',
+    right: normalize(28),
+    zIndex: 100,
+  },
+  eye: {
+    height: vh(20),
+    width: vw(20),
     resizeMode: 'contain',
-    right: 30,
-    bottom: 24,
   },
   signIn: {
     flexDirection: 'row',

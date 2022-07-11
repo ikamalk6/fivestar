@@ -7,6 +7,9 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import OnGoogleButtonPress from '../../utils/googleButton';
 import CustomTextInput from '../../components/customTextInput';
+import {STRINGNAME} from '../../utils/string';
+import {IMAGE} from '../../utils/images';
+
 export default function LoginScreen() {
   const navigation = useNavigation<any>();
   return (
@@ -40,11 +43,11 @@ export default function LoginScreen() {
           });
       }}
       validationSchema={yup.object().shape({
-        email: yup.string().email().required('Invalid credentials'),
+        email: yup.string().email().required(STRINGNAME.INVALID_CRED),
         password: yup
           .string()
-          .min(8, 'too short')
-          .required('Invalid credentials'),
+          .min(8, STRINGNAME.TOO_SHORT)
+          .required(STRINGNAME.INVALID_CRED),
       })}>
       {({
         values,
@@ -60,7 +63,7 @@ export default function LoginScreen() {
           <View style={styles.mainView}>
             <View>
               <Text style={styles.heading}>
-                {'Sign In Using Your \nMobile Number / Email'}
+                {STRINGNAME.SIGNIN_USING_MOBILE_EMAIL}
               </Text>
             </View>
             <CustomTextInput
@@ -85,19 +88,14 @@ export default function LoginScreen() {
               />
 
               <TouchableOpacity
+                style={styles.eyeBttn}
                 onPress={() => {
                   setFieldValue('toggle', !values.toggle);
                 }}>
                 {values.toggle ? (
-                  <Image
-                    style={styles.eye}
-                    source={require('../../assets/image/eye.png')}
-                  />
+                  <Image style={styles.eye} source={IMAGE.eyeEnable} />
                 ) : (
-                  <Image
-                    style={styles.eye}
-                    source={require('../../assets/image/eyes.png')}
-                  />
+                  <Image style={styles.eye} source={IMAGE.eyeDisable} />
                 )}
               </TouchableOpacity>
               {touched.password && errors.password && (
@@ -105,7 +103,7 @@ export default function LoginScreen() {
               )}
             </View>
             <TouchableOpacity>
-              <Text style={styles.forgot}>{'Forgot Password?'}</Text>
+              <Text style={styles.forgot}>{STRINGNAME.FORGOT_PASSWORD}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={
@@ -116,7 +114,11 @@ export default function LoginScreen() {
               disabled={!isValid}
               onPress={handleSubmit}>
               <Text
-                style={isValid ? styles.buttonText : styles.buttonTextInvalid}>
+                style={
+                  isValid && values.email != '' && values.password != ''
+                    ? styles.buttonText
+                    : styles.buttonTextInvalid
+                }>
                 {'SIGN IN'}
               </Text>
             </TouchableOpacity>
@@ -129,12 +131,7 @@ export default function LoginScreen() {
             <TouchableOpacity
               style={styles.google}
               onPress={() => OnGoogleButtonPress()}>
-              <Image
-                style={styles.glogo}
-                source={require('../../assets/image/google.png')}
-              />
-
-              <Text style={styles.gText}>{'Continue With Google'}</Text>
+              <Image style={styles.glogo} source={IMAGE.googleLogo} />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -142,20 +139,16 @@ export default function LoginScreen() {
               onPress={() => {
                 navigation.navigate('ValidateOtp');
               }}>
-              <Image
-                style={styles.glogo}
-                source={require('../../assets/image/apple.png')}
-              />
-              <Text style={styles.gText}>{'Continue with Apple'}</Text>
+              <Image style={styles.glogo} source={IMAGE.appleLogo} />
             </TouchableOpacity>
 
             <View style={styles.newUser}>
-              <Text style={styles.newUserT}>{"I'm a new user "}</Text>
+              <Text style={styles.newUserT}>{STRINGNAME.I_AM_NEW_USER}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('SignUp');
+                  navigation.navigate(STRINGNAME.SIGNUP);
                 }}>
-                <Text style={styles.signUptxt}>{'Sign Up'}</Text>
+                <Text style={styles.signUptxt}>{STRINGNAME.SIGNUP1}</Text>
               </TouchableOpacity>
             </View>
           </View>

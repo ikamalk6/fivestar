@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import React from 'react';
 import {TextInput} from 'react-native-paper';
 import COLOR from '../utils/colors';
+import {vw} from '../utils/dimensions';
 
 export default function CustomTextInput(props: any) {
   let {right, style} = props;
@@ -15,7 +16,7 @@ export default function CustomTextInput(props: any) {
         activeOutlineColor={COLOR.white}
         mode="outlined"
         selectionColor={COLOR.white}
-        dense={true}
+        // dense={true}
         theme={{
           colors: {
             placeholder: COLOR.white,
@@ -34,7 +35,9 @@ const styles = StyleSheet.create({
   inputText: {
     marginVertical: 10,
     borderRadius: 5,
-    justifyContent: 'center',
-    flexWrap: 'nowrap',
+    // justifyContent: 'center',
+    // flexWrap: 'nowrap',
+    width: vw(328),
+    alignSelf: 'center',
   },
 });

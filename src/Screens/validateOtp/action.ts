@@ -38,23 +38,28 @@ const ValidateOtpApiCall = (
   otp: string,
   countryCode: any,
   phoneNo: any,
+  success: any,
 ) => {
-  return axios({
-    method: 'post',
-    url: 'https://fivestardevapi.appskeeper.in/api/v1/user/verify-otp',
-    data: {
-      userId,
-      otp,
-      countryCode,
-      phoneNo,
-    },
-  })
-    .then(resp => {
-      return resp;
+  return (dispatch: any, _: any) =>
+    axios({
+      method: 'post',
+      url: 'https://fivestardevapi.appskeeper.in/api/v1/user/verify-otp',
+      data: {
+        userId,
+        otp,
+        countryCode,
+        phoneNo,
+      },
     })
-    .catch(err => {
-      console.log('error', err);
-    });
+      .then(resp => {
+        console.log('resp', resp);
+        dispatch({type: 'SET_USER_DETAIL', payload: resp.data.data});
+        success(resp);
+      })
+      .catch(err => {
+        console.log('error', err);
+        success(err);
+      });
 };
 
 export default ValidateOtpApiCall;

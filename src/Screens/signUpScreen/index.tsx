@@ -1,19 +1,29 @@
-import {Text, View, TouchableOpacity, Image, ScrollView} from 'react-native';
-import React from 'react';
+import {
+  Text,
+  View,
+  Alert,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import SignUpApiCall from './action';
+import React, {useState} from 'react';
+import COLOR from '../../utils/colors';
 import styles from '../signUpScreen/style';
-import {useSelector, useDispatch} from 'react-redux';
+import GoBack from '../../components/goBackBtn';
+import {SignupValuesModal} from '../../utils/modals';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import CustomTextInput from '../../components/customTextInput';
-import {SignupValuesModal} from '../../utils/modals';
-
 export default function SignUp() {
   const dispatch = useDispatch<any>();
   // const {name, email, password, countryCode, phoneNo} = useSelector(
   //   (store: any) => store.SignUpReducer,
   // );
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigation = useNavigation<any>();
 
@@ -21,9 +31,23 @@ export default function SignUp() {
     <Formik
       initialValues={new SignupValuesModal()}
       onSubmit={values => {
+        setIsLoading(true);
         console.log('on Submit', values);
-        dispatch(SignUpApiCall(values));
-        navigation.navigate('ValidateOtp');
+        dispatch(
+          SignUpApiCall(
+            values,
+            (resp: any) => {
+              if (resp?.status === 200) {
+                setIsLoading(false);
+                navigation.navigate('ValidateOtp');
+              }
+            },
+            (error: any) => {
+              setIsLoading(false);
+              Alert.alert('error', error);
+            },
+          ),
+        );
       }}
       validationSchema={yup.object().shape({
         name: yup.string().min(3, 'too short').max(30, 'too long').required(),
@@ -37,6 +61,9 @@ export default function SignUp() {
           .string()
           .min(6, 'too short')
           .max(15, 'too long')
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          )
           .required(),
         checkToggle: yup.boolean().equals([true], 'must agree'),
       })}>
@@ -51,19 +78,19 @@ export default function SignUp() {
         handleBlur,
       }) => (
         <View style={styles.main}>
-          <ScrollView>
+          {/* <TouchableOpacity
+            style={{width: 20}}
+            onPress={() => {
+              navigation.navigate('LoginScreen');
+            }}>
+            <Image
+              style={styles.arrow}
+              source={require('../../assets/image/lefta.png')}
+            />
+          </TouchableOpacity> */}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <GoBack />
             <View style={styles.inner}>
-              <TouchableOpacity
-                style={{width: 20}}
-                onPress={() => {
-                  navigation.navigate('LoginScreen');
-                }}>
-                <Image
-                  style={styles.arrow}
-                  source={require('../../assets/image/lefta.png')}
-                />
-              </TouchableOpacity>
-
               <View>
                 <Text style={styles.create}>{'Create Account'}</Text>
                 <Text style={styles.started}>{'Signup to get started'}</Text>
@@ -72,7 +99,6 @@ export default function SignUp() {
               <CustomTextInput
                 value={values.name}
                 label={'Full Name*'}
-                // labelStyle={{width: '80%'}}
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
               />
@@ -85,6 +111,7 @@ export default function SignUp() {
                 value={values.phoneNo}
                 keyboardType="numeric"
                 onBlur={handleBlur('phoneNo')}
+                maxLength={10}
                 onChangeText={handleChange('phoneNo')}
               />
 
@@ -111,6 +138,7 @@ export default function SignUp() {
                 />
 
                 <TouchableOpacity
+                  style={styles.eyeBttn}
                   onPress={() => {
                     setFieldValue('eyeToggle', !values.eyeToggle);
                   }}>
@@ -203,6 +231,7 @@ export default function SignUp() {
               </View>
             </View>
           </ScrollView>
+          {isLoading && <ActivityIndicator size="large" color={COLOR.sky} />}
         </View>
       )}
     </Formik>

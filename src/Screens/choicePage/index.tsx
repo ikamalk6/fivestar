@@ -37,6 +37,14 @@ export default function ChoicePage() {
           }}
           style={styles.fanView}>
           <Image
+            style={
+              optedOption === STRINGNAME.FAN
+                ? styles.tickStyl
+                : styles.tickStyldead
+            }
+            source={IMAGE.tick}
+          />
+          <Image
             style={optedOption === STRINGNAME.FAN ? styles.fan : styles.fanDis}
             source={IMAGE.fan}
           />
@@ -142,5 +150,19 @@ const styles = StyleSheet.create({
     flexDirection: 'column-reverse',
     flex: 1,
     marginBottom: normalize(10),
+  },
+  tickStyl: {
+    height: normalize(9.92),
+    width: normalize(14),
+    top: normalize(22),
+    zIndex: 2,
+    marginLeft: normalize(315),
+  },
+  tickStyldead: {
+    height: normalize(9.92),
+    width: normalize(14),
+    top: normalize(22),
+    // zIndex: 2,
+    marginLeft: normalize(315),
   },
 });

@@ -6,9 +6,13 @@ import {
   Dimensions,
   Animated,
   StatusBar,
+  Platform,
 } from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {normalize, vh, vw} from '../../utils/dimensions';
+import {IMAGE} from '../../utils/images';
+import {STRINGNAME} from '../../utils/string';
 
 const {height, width} = Dimensions.get('window');
 
@@ -26,25 +30,16 @@ export default function SplashScreen() {
   }, [fadeAnim]);
 
   useEffect(() => {
-    setTimeout(() => navigation.replace('LoginScreen'), 3000);
+    setTimeout(() => navigation.replace(STRINGNAME.LOGIN_SCREEN), 3000);
   });
   const navigation = useNavigation<any>();
 
   return (
-    <View>
+    <View style={styles.mainView}>
       <StatusBar hidden={true} />
-      <ImageBackground
-        style={styles.background}
-        source={require('../../assets/image/Tut.png')}
-      />
-      <Image
-        style={styles.splash}
-        source={require('../../assets/image/Splash.png')}
-      />
-      <Image
-        style={styles.five}
-        source={require('../../assets/image/Union.png')}
-      />
+      <ImageBackground style={styles.background} source={IMAGE.background} />
+      <Image style={styles.splash} source={IMAGE.splash} />
+      <Image style={styles.five} source={IMAGE.fiveLogo} />
 
       <Animated.View
         style={{
@@ -55,16 +50,17 @@ export default function SplashScreen() {
           ],
           position: 'absolute',
         }}>
-        <Image
-          style={styles.star}
-          source={require('../../assets/image/star.png')}
-        />
+        <Image style={styles.star} source={IMAGE.starLogo} />
       </Animated.View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mainView: {
+    height: vh(812),
+    width: vw(375),
+  },
   background: {
     height: height,
     resizeMode: 'contain',
@@ -77,20 +73,21 @@ const styles = StyleSheet.create({
     width: width,
   },
   five: {
-    height: 70,
-    width: 310,
+    height: vh(79.78),
+    width: vw(317),
     zIndex: 2,
     position: 'absolute',
     alignSelf: 'center',
-    marginTop: 70,
+    top: Platform.OS === 'ios' ? normalize(83) : normalize(40),
   },
   star: {
-    height: 72,
-    width: 99,
+    height: vh(79.78),
+    width: vw(97),
     zIndex: 3,
-    top: 65,
-    marginLeft: 206,
-    marginTop: 4,
     position: 'absolute',
+    marginLeft: normalize(200),
+    // marginBottom: 50,
+    // top: 65,
+    top: Platform.OS === 'ios' ? normalize(83) : normalize(40),
   },
 });

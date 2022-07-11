@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
@@ -15,12 +16,16 @@ import COLOR from '../../utils/colors';
 import {IMAGE} from '../../utils/images';
 import CustomTextInput from '../../components/customTextInput';
 import {STRINGNAME} from '../../utils/string';
-import {normalize} from '../../utils/dimensions';
+import {normalize, vh, vw} from '../../utils/dimensions';
 import SelectIdentity from '../../components/selectIdentity';
+import {useDispatch, useSelector} from 'react-redux';
+import {sportsAction} from './action';
+import {useNavigation} from '@react-navigation/native';
 
 export default function CompleteProfile() {
-  const [cover, setCover] = useState('');
-  const [profile, setProfile] = useState('');
+  const dispatch = useDispatch<any>();
+  const [cover, setCover] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   const [chooseDate, setChooseDate] = useState('Date of Birth');
@@ -29,23 +34,18 @@ export default function CompleteProfile() {
   const openModal = () => {
     setModalVisible(!modalVisible);
   };
+  const {userdata} = useSelector((Store: any) => Store.ValidateOtpReducer);
+  // console.log('AFTEROTPVERIFICATION', userdata.authToken);
+  const navigation = useNavigation<any>();
 
   return (
     <View style={styles.container}>
       <Text style={styles.head}>{STRINGNAME.HI_JOHN}</Text>
 
-      <Modal isVisible={modalVisible}>
-        <SelectIdentity
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          identity={identity}
-          setIdentity={setIdentity}></SelectIdentity>
-      </Modal>
-
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.innerView}>
           <TouchableOpacity
-            style={{height: normalize(200), width: normalize(335)}}
+            style={styles.coverView}
             onPress={() =>
               ImagePicker.openPicker({
                 cropping: true,
@@ -79,41 +79,33 @@ export default function CompleteProfile() {
             <Image style={styles.miniCp} source={IMAGE.cam} />
           </TouchableOpacity>
         </View>
+
         <View>
-          <CustomTextInput label={'Change your Username'} />
-          <TouchableOpacity
-            onPress={openModal}
-            style={{
-              height: 40,
-              width: 355,
-              borderWidth: 1,
-              borderColor: COLOR.white,
-            }}>
-            <Text style={{color: COLOR.white}}>{identity}</Text>
+          <CustomTextInput
+            label={STRINGNAME.CHNAGE_YOUR_USERNAME}
+            value={userdata?.username}
+          />
+
+          <Modal isVisible={modalVisible}>
+            <SelectIdentity
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              identity={identity}
+              setIdentity={setIdentity}></SelectIdentity>
+          </Modal>
+
+          <TouchableOpacity onPress={openModal} style={styles.identityView}>
+            <Text style={styles.identityTxt}>{identity}</Text>
           </TouchableOpacity>
-          {/* <CustomTextInput
-            label={'Select your Identity'}
-            value={identity}
-            right={() => (
-              <TouchableOpacity onPress={openModal}>
-                <Image
-                  source={IMAGE.calender}
-                  style={{height: 20, width: 20, bottom: 30}}
-                />
-              </TouchableOpacity>
-            )}
-          /> */}
+
           <CustomTextInput
             label={'DOB'}
             value={chooseDate}
             right={() => (
               <TouchableOpacity
-                style={{left: 320, position: 'absolute', top: 160}}
+                style={styles.dobView}
                 onPress={() => setOpen(true)}>
-                <Image
-                  source={IMAGE.calender}
-                  style={{height: 20, width: 20}}
-                />
+                <Image source={IMAGE.calender} style={styles.dobLogo} />
                 <DatePicker
                   modal
                   open={open}
@@ -139,13 +131,21 @@ export default function CompleteProfile() {
               </TouchableOpacity>
             )}
           />
-          <CustomTextInput label={'ZipCode*'} />
-          <CustomTextInput label={'Bio'} />
+          <CustomTextInput label={'ZipCode*'} style={styles.newDesign} />
+          <CustomTextInput label={'Bio'} multiline={true} />
           <CustomTextInput label={'Referral Code'} />
-          <CustomTextInput label={'Sports I Watch'} />
+
+          <TouchableOpacity
+            style={styles.identityView}
+            onPress={() => {
+              dispatch(sportsAction(userdata?.authToken));
+              navigation.navigate(STRINGNAME.SPORTSLOGOSCR);
+            }}>
+            <Text style={styles.identityTxt}>{'Sports I Watch'}</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
-      <TouchableOpacity style={{borderRadius: 7}} onPress={openModal}>
+      <TouchableOpacity style={{borderRadius: 7, marginBottom: normalize(15)}}>
         <Image style={{width: '100%', height: 40}} source={IMAGE.saveDisable} />
       </TouchableOpacity>
     </View>
@@ -154,7 +154,7 @@ export default function CompleteProfile() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: normalize(15),
+    paddingHorizontal: normalize(20),
     backgroundColor: COLOR.black,
     flex: 1,
   },
@@ -163,25 +163,30 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontStyle: 'italic',
     fontWeight: '900',
-    paddingBottom: 20,
-    paddingTop: 40,
+    paddingBottom: normalize(20),
+    paddingTop: Platform.OS === 'ios' ? normalize(40) : normalize(10),
   },
   innerView: {
-    marginBottom: normalize(35),
+    marginBottom: normalize(50),
+  },
+  coverView: {
+    height: normalize(200),
+    width: normalize(328),
   },
   coverStyl: {
     height: normalize(200),
-    width: normalize(335),
+    width: normalize(328),
     borderWidth: 1,
     borderColor: COLOR.white,
     borderRadius: 5,
     backgroundColor: COLOR.light_Black,
+    // resizeMode: 'contain',
   },
   miniC: {
-    height: 24,
-    width: 24,
+    height: normalize(24),
+    width: normalize(24),
     alignSelf: 'center',
-    bottom: 120,
+    bottom: normalize(120),
     opacity: 0.6,
   },
   profStyl: {
@@ -189,23 +194,52 @@ const styles = StyleSheet.create({
     width: normalize(97.6),
     borderWidth: 1,
     borderColor: COLOR.white,
-    left: 20,
+    left: normalize(20),
     borderRadius: 5,
-    top: 20,
+    top: normalize(20),
     backgroundColor: COLOR.light_Black,
   },
   miniCp: {
-    height: 20,
-    width: 20,
-    left: 60,
-    bottom: 38,
+    height: normalize(20),
+    width: normalize(20),
+    left: normalize(60),
+    bottom: normalize(38),
     opacity: 0.6,
   },
   profileView: {
     zIndex: 1,
     height: normalize(98),
     width: normalize(97.6),
-    top: 130,
+    top: normalize(130),
     position: 'absolute',
+  },
+  identityView: {
+    height: normalize(48),
+    width: normalize(328),
+    borderWidth: 1,
+    borderRadius: normalize(5),
+    marginVertical: normalize(10),
+    borderColor: COLOR.white,
+    padding: normalize(15),
+    alignSelf: 'center',
+  },
+  identityTxt: {
+    color: COLOR.white,
+    fontSize: 14,
+  },
+  dobView: {
+    left: normalize(290),
+    position: 'absolute',
+    top: normalize(180),
+
+    zIndex: 2,
+  },
+  dobLogo: {
+    height: normalize(24),
+    width: normalize(24),
+    resizeMode: 'contain',
+  },
+  newDesign: {
+    backgroundColor: 'red',
   },
 });

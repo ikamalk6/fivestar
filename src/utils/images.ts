@@ -18,4 +18,13 @@ export const IMAGE = {
   athlete: require('../assets/image/athl.png'),
   calender: require('../assets/image/Calendar.png'),
   cancelButton: require('../assets/image/ic_cancel.png'),
+  eyeEnable: require('../assets/image/eye.png'),
+  eyeDisable: require('../assets/image/eyes.png'),
+  googleLogo: require('../assets/image/googleloginnew.png'),
+  appleLogo: require('../assets/image/appleloginnew.png'),
+  background: require('../assets/image/Tut.png'),
+  splash: require('../assets/image/Splash.png'),
+  fiveLogo: require('../assets/image/Union.png'),
+  starLogo: require('../assets/image/star.png'),
+  tick: require('../assets/image/Vectortick.png'),
 };

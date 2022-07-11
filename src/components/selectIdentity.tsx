@@ -43,6 +43,18 @@ export default function SelectIdentity(props: any) {
         <Text style={styles.heading}>{STRINGNAME.SELECT_YOUR_IDENTITY}</Text>
 
         <TouchableOpacity onPress={handleFan}>
+          <Text
+            style={{
+              color: 'white',
+              position: 'absolute',
+              zIndex: 2,
+              left: normalize(210),
+              bottom: normalize(45),
+              fontSize: 24,
+              fontWeight: '900',
+            }}>
+            {STRINGNAME.FAN}
+          </Text>
           <Image
             style={identity === 'Fan' ? styles.images : styles.imageActive}
             source={IMAGE.fan}
@@ -66,52 +78,56 @@ const styles = StyleSheet.create({
     flexDirection: 'column-reverse',
   },
   modalView: {
-    width: normalize(374),
-    height: normalize(374),
+    width: normalize(375),
+    height: normalize(377),
     borderTopWidth: normalize(4),
     borderColor: COLOR.sky,
-    backgroundColor: COLOR.black,
+    backgroundColor: COLOR.light_Black2,
     paddingHorizontal: normalize(10),
-    paddingVertical: normalize(20),
-    justifyContent: 'center',
+    // paddingVertical: normalize(20),
+    // justifyContent: 'center',
     alignSelf: 'center',
+    // flex: 1,
   },
   cancelBtn: {
-    height: vh(24),
-    width: vw(24),
+    height: normalize(24),
+    width: normalize(24),
     resizeMode: 'contain',
     alignSelf: 'flex-end',
     right: normalize(10),
+    marginVertical: normalize(18),
   },
   heading: {
     fontWeight: '900',
     fontStyle: 'italic',
     fontSize: 24,
     color: COLOR.white,
-    marginVertical: normalize(10),
+    marginBottom: normalize(10),
   },
   imageActive: {
-    height: vh(104),
-    // width: vw(327),
+    height: normalize(104),
     width: '100%',
     marginVertical: normalize(10),
-    resizeMode: 'contain',
+    // width: normalize(327),
+    // resizeMode: 'contain',
+    borderRadius: normalize(5),
   },
   images: {
-    height: vh(104),
-    // width: vw(327),
+    height: normalize(104),
     width: '100%',
     marginVertical: normalize(10),
-    resizeMode: 'contain',
     borderWidth: 1,
     borderColor: COLOR.sky,
+    borderRadius: normalize(5),
+
+    // width: vw(327),
   },
   fantxt: {
     color: COLOR.white,
     fontWeight: '900',
     fontSize: 24,
     top: normalize(130),
-    // position: 'absolute',
+
     // zIndex: 2,
   },
 });

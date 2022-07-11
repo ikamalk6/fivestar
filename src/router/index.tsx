@@ -15,6 +15,7 @@ import FindEmailAccount from '../screens/findAccount/withEmail';
 
 import {STRINGNAME} from '../utils/string';
 import ResetPassword from '../screens/resetPassword';
+import SportsLogoScr from '../screens/completeProfile/sportsLogo';
 
 export default function NavigationScreen() {
   const Stack = createNativeStackNavigator();
@@ -59,10 +60,16 @@ export default function NavigationScreen() {
           component={CompleteProfile}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name={STRINGNAME.SPORTSLOGOSCR}
+          component={SportsLogoScr}
+          options={{headerShown: false}}
+        />
         {/* <Stack.Screen name="FindAccount" component={FindAccount} /> */}
         {/* <Stack.Screen name="FindMobileAccount" component={FindMobileAccount} /> */}
         {/* <Stack.Screen name="FindEmailAccount" component={FindEmailAccount} /> */}
-        <Stack.Screen name="Reset" component={ResetPassword} />
+        {/* <Stack.Screen name="SportsScreen" component={SportsScreen} /> */}
+        {/* <Stack.Screen name="Reset" component={ResetPassword} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

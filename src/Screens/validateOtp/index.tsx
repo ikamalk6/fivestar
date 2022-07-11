@@ -7,15 +7,18 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  Platform,
 } from 'react-native';
 import React, {useState, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import Modal from 'react-native-modal';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ValidateOtpApiCall from './action';
 import COLOR from '../../utils/colors';
 import {IMAGE} from '../../utils/images';
+import {normalize, vh, vw} from '../../utils/dimensions';
+import GoBack from '../../components/goBackBtn';
 export default function ValidateOtp() {
   const digi1 = useRef<any>(null);
   const digi2 = useRef<any>(null);
@@ -29,17 +32,14 @@ export default function ValidateOtp() {
   const {phoneNo, userId, countryCode} = useSelector(
     (store: any) => store.SignUpReducer,
   );
+  const dispatch = useDispatch<any>();
+
   return (
     <View style={styles.mainView}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.innerView}>
           <View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('SignUp');
-              }}>
-              <Image style={styles.arrow} source={IMAGE.arrow} />
-            </TouchableOpacity>
+            <GoBack />
             <Text style={styles.heading}>{'Enter Verification code'}</Text>
             <Text style={styles.message}>
               {`Kindly enter the 4 digit verification code sent to`}
@@ -95,14 +95,18 @@ export default function ValidateOtp() {
               <TouchableOpacity
                 style={styles.button1}
                 onPress={() => {
-                  console.log(
-                    ValidateOtpApiCall(userId, otp, countryCode, phoneNo)
-                      .then((res: any) => {
-                        res.status == 200 && setModalVisible(!isModalVisible);
-                      })
-                      .catch(err => {
-                        Alert.alert('invalid otp');
-                      }),
+                  dispatch(
+                    ValidateOtpApiCall(
+                      userId,
+                      otp,
+                      countryCode,
+                      phoneNo,
+                      (code: any) => {
+                        if (code?.data?.statusCode == 200) {
+                          setModalVisible(!isModalVisible);
+                        } else Alert.alert('Wrong OTP');
+                      },
+                    ),
                   );
                 }}>
                 <Text style={styles.buttonText}>{'Submit'}</Text>
@@ -145,10 +149,7 @@ export default function ValidateOtp() {
             style={styles.bmx}
             source={require('../../assets/image/BMX.png')}
           />
-          <Image
-            style={styles.footer}
-            source={require('../../assets/image/Footer.png')}
-          />
+          <Image style={styles.footer} source={IMAGE.footer} />
         </View>
       </ScrollView>
     </View>
@@ -158,32 +159,31 @@ export default function ValidateOtp() {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-
     backgroundColor: COLOR.black,
   },
   innerView: {
     flex: 1,
-    marginTop: 44,
-    padding: 20,
+    marginTop: Platform.OS === 'ios' ? normalize(44) : normalize(10),
+    paddingHorizontal: normalize(20),
   },
 
   heading: {
     fontSize: 27,
     fontStyle: 'italic',
-    color: '#ffffff',
+    color: COLOR.white,
     fontWeight: '900',
-    marginVertical: 10,
+    marginVertical: normalize(6),
   },
   message: {
-    color: '#ffffff',
+    color: COLOR.white,
   },
-  submit: {
-    backgroundColor: COLOR.sky,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginVertical: 20,
-  },
+  // submit: {
+  //   // backgroundColor: COLOR.sky,
+  //   // justifyContent: 'center',
+  //   // alignItems: 'center',
+  //   borderRadius: 5,
+  //   // marginVertical: 20,
+  // },
   submittxt: {
     fontSize: 20,
     padding: 10,
@@ -191,11 +191,12 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   bmx: {
-    height: 354,
-    width: '100%',
+    height: vh(354),
+    width: vw(333),
     position: 'absolute',
     bottom: 0,
     resizeMode: 'contain',
+    opacity: 0.7,
   },
   footer: {
     position: 'absolute',
@@ -205,11 +206,11 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
   },
-  arrow: {
-    height: 20,
-    width: 20,
-    marginBottom: 15,
-  },
+  // arrow: {
+  //   height: 20,
+  //   width: 20,
+  //   marginBottom: 15,
+  // },
   button: {
     borderRadius: 5,
     padding: 15,
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.sky,
   },
   textStyle: {
-    color: '#000000',
+    color: COLOR.black,
     fontWeight: '900',
     textAlign: 'center',
     fontStyle: 'italic',
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   otpWarn: {
-    color: '#ffffff',
+    color: COLOR.white,
     textAlign: 'center',
     marginTop: 40,
   },
@@ -244,7 +245,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 3,
     borderColor: COLOR.sky,
     alignSelf: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: COLOR.black,
     height: 300,
     width: 350,
     justifyContent: 'center',
@@ -263,56 +264,59 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   txtinp: {
-    backgroundColor: '#000000',
-    height: 50,
-    width: 65,
+    height: normalize(48),
+    width: normalize(64),
     fontWeight: '900',
     fontSize: 30,
     borderRadius: 5,
-    borderColor: '#ffffff',
+    borderColor: COLOR.white,
     borderWidth: 1,
     color: COLOR.sky,
     textAlign: 'center',
+    justifyContent: 'center',
+    paddingVertical: 5,
   },
   inpView: {
-    marginVertical: 15,
+    marginVertical: normalize(15),
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
-  btn: {
-    height: 80,
-    width: '100%',
-    backgroundColor: COLOR.sky,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginTop: 30,
-  },
-  btnx: {
-    height: 80,
-    width: 80,
-    // textAlign: 'center',
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginTop: 30,
-  },
+  // btn: {
+  //   height: normalize(80),
+  //   width: '100%',
+  //   backgroundColor: COLOR.sky,
+  //   justifyContent: 'center',
+  //   alignSelf: 'center',
+  //   marginTop: 30,
+  // },
+  // btnx: {
+  //   height: 80,
+  //   width: 80,
+  //   // textAlign: 'center',
+  //   backgroundColor: 'white',
+  //   justifyContent: 'center',
+  //   alignSelf: 'center',
+  //   marginTop: 30,
+  // },
   button1: {
     backgroundColor: COLOR.sky,
     borderRadius: 5,
-    height: 48,
-    width: '100%',
+    height: normalize(48),
+    width: normalize(328),
+
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 30,
+    marginTop: normalize(30),
   },
   buttonDisabled: {
     backgroundColor: COLOR.mud,
     borderRadius: 5,
-    height: 48,
-    width: '100%',
+    height: normalize(48),
+
+    width: normalize(328),
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 30,
+    marginTop: normalize(30),
   },
   buttonTextDisabled: {
     fontSize: 16,

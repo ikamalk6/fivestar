@@ -1,6 +1,6 @@
 import {Platform, StyleSheet} from 'react-native';
 import COLOR from '../../utils/colors';
-import {normalize} from '../../utils/dimensions';
+import {normalize, vh, vw} from '../../utils/dimensions';
 
 const styles = StyleSheet.create({
   container: {
@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mainView: {
-    marginTop: Platform.OS === 'ios' ? normalize(35) : 0,
+    marginTop: Platform.OS === 'ios' ? normalize(35) : normalize(10),
     padding: normalize(18),
   },
   heading: {
@@ -16,38 +16,27 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: '900',
     fontStyle: 'italic',
-    marginBottom: 25,
-    paddingHorizontal: 10,
+    marginBottom: normalize(20),
+    paddingHorizontal: normalize(8),
   },
-  inputStyle: {
-    padding: 18,
-    marginBottom: 10,
-    marginVertical: 15,
-    borderRadius: 5,
-    margin: 10,
-    color: COLOR.sky,
-    fontWeight: '900',
-    backgroundColor: COLOR.black,
-    borderColor: 'white',
-    borderWidth: 1.5,
-  },
+
   buttonValid: {
     backgroundColor: COLOR.sky,
     borderRadius: 5,
-    height: 48,
-    width: '100%',
+    height: vh(48),
+    width: vw(328),
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 60,
+    marginTop: normalize(50),
   },
   buttonInvalid: {
     backgroundColor: COLOR.mud,
     borderRadius: 5,
     height: 48,
-    width: '100%',
+    width: vw(328),
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 60,
+    marginTop: normalize(50),
   },
   buttonText: {
     fontSize: 16,
@@ -66,7 +55,8 @@ const styles = StyleSheet.create({
   warning: {
     fontSize: 12,
     color: COLOR.dullRed,
-    marginLeft: 10,
+    marginLeft: normalize(8),
+    marginBottom: normalize(5),
   },
   forgot: {
     color: COLOR.sky,
@@ -77,20 +67,21 @@ const styles = StyleSheet.create({
   },
   orButton: {
     fontSize: 16,
-    fontWeight: '400',
+    fontWeight: '600',
     color: 'grey',
     alignSelf: 'center',
   },
   orStyle: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 15,
+    marginTop: normalize(40),
+    marginBottom: 10,
+    marginHorizontal: 8,
   },
   line: {
     borderBottomWidth: 1,
     borderBottomColor: 'grey',
-    width: 155,
+    flex: 1,
   },
 
   newUser: {
@@ -103,44 +94,40 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   google: {
-    margin: 20,
-    flexDirection: 'row',
-    backgroundColor: COLOR.white,
-    width: '100%',
-    height: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
+    margin: normalize(20),
+    width: vw(328),
+    height: vh(48),
     alignSelf: 'center',
     borderRadius: 5,
   },
   apple: {
-    margin: 20,
-    flexDirection: 'row',
-
-    backgroundColor: COLOR.white,
-
-    width: '100%',
-    height: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
+    margin: normalize(20),
+    width: vw(328),
+    height: vh(48),
     alignSelf: 'center',
     borderRadius: 5,
   },
   gText: {
     fontSize: 16,
   },
-  eye: {
-    height: 15,
-    width: 20,
-    resizeMode: 'contain',
-    bottom: 24,
+  eyeBttn: {
+    height: normalize(15),
+    width: normalize(20),
+    bottom: normalize(28),
     position: 'absolute',
-    right: 30,
+    right: normalize(28),
+    zIndex: 100,
+  },
+  eye: {
+    height: vh(15),
+    width: vw(20),
+    resizeMode: 'contain',
   },
   glogo: {
-    width: 20,
-    height: 20,
-    marginRight: 7,
+    width: normalize(328),
+    height: normalize(48),
+    borderRadius: normalize(5),
+    resizeMode: 'contain',
   },
   passBox: {justifyContent: 'space-between'},
   signUptxt: {

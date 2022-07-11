@@ -7,5 +7,6 @@ const COLOR = {
   dullRed: '#FF6258',
   dark_grey: '#1A1A1B',
   light_Black: '#1B1B1B',
+  light_Black2: '#121212',
 };
 export default COLOR;
