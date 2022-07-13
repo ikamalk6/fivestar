@@ -1,16 +1,17 @@
-const initialState = {
-  sports: [],
+const intialState = {
+  sportsdata: [],
+  zipCodeData: [],
 };
 
-const ComProfReducer = (state = initialState, action: any) => {
+const ProfileReducer = (state = intialState, action: any) => {
   const {type, payload} = action;
-
   switch (type) {
-    case 'SET_SPORTS':
-      return {...state, sports: payload};
-
+    case 'SPORTS_SET':
+      return {...state, sportsdata: payload};
+    case 'ZIPCODE_SET':
+      return {...state, zipCodeData: payload};
     default:
-      return {state};
+      return {...state};
   }
 };
-export default ComProfReducer;
+export default ProfileReducer;

@@ -19,8 +19,9 @@ import {STRINGNAME} from '../../utils/string';
 import {normalize, vh, vw} from '../../utils/dimensions';
 import SelectIdentity from '../../components/selectIdentity';
 import {useDispatch, useSelector} from 'react-redux';
-import {sportsAction} from './action';
 import {useNavigation} from '@react-navigation/native';
+import {SportAction} from './action';
+import {DisableButton} from '../../components/customButton';
 
 export default function CompleteProfile() {
   const dispatch = useDispatch<any>();
@@ -31,11 +32,12 @@ export default function CompleteProfile() {
   const [chooseDate, setChooseDate] = useState('Date of Birth');
   const [identity, setIdentity] = useState('Select your identity');
   const [modalVisible, setModalVisible] = useState(false);
+  const [zipcode, setZipCode] = useState('');
   const openModal = () => {
     setModalVisible(!modalVisible);
   };
+  const [selectedSports, setSelectedSports] = useState([]);
   const {userdata} = useSelector((Store: any) => Store.ValidateOtpReducer);
-  // console.log('AFTEROTPVERIFICATION', userdata.authToken);
   const navigation = useNavigation<any>();
 
   return (
@@ -131,23 +133,46 @@ export default function CompleteProfile() {
               </TouchableOpacity>
             )}
           />
-          <CustomTextInput label={'ZipCode*'} style={styles.newDesign} />
+
+          <TouchableOpacity
+            style={styles.identityView}
+            onPress={() => {
+              navigation.navigate('ZipCode', {zipcode: setZipCode});
+            }}>
+            <Text style={styles.identityTxt}>
+              {zipcode.length < 0 ? 'Zipcode' : zipcode}
+            </Text>
+          </TouchableOpacity>
           <CustomTextInput label={'Bio'} multiline={true} />
           <CustomTextInput label={'Referral Code'} />
 
           <TouchableOpacity
             style={styles.identityView}
             onPress={() => {
-              dispatch(sportsAction(userdata?.authToken));
-              navigation.navigate(STRINGNAME.SPORTSLOGOSCR);
+              dispatch(SportAction(userdata?.authToken));
+              // navigation.navigate(STRINGNAME.SPORTSLOGOSCR);
+              navigation.navigate('SportsLogoScr', {
+                callback: (par: any) => {
+                  setSelectedSports(par);
+                },
+              });
             }}>
-            <Text style={styles.identityTxt}>{'Sports I Watch'}</Text>
+            <Text style={styles.identityTxt}>
+              {selectedSports.length < 0
+                ? 'Sports I Watch'
+                : JSON.stringify(selectedSports)}
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <TouchableOpacity style={{borderRadius: 7, marginBottom: normalize(15)}}>
+      {/* <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('LoginScreen');
+        }}
+        style={{borderRadius: 7, marginBottom: normalize(15)}}>
         <Image style={{width: '100%', height: 40}} source={IMAGE.saveDisable} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <DisableButton label={'SUBMIT'} />
     </View>
   );
 }
@@ -226,20 +251,17 @@ const styles = StyleSheet.create({
   identityTxt: {
     color: COLOR.white,
     fontSize: 14,
+    textTransform: 'uppercase',
   },
   dobView: {
     left: normalize(290),
     position: 'absolute',
     top: normalize(180),
-
     zIndex: 2,
   },
   dobLogo: {
     height: normalize(24),
     width: normalize(24),
     resizeMode: 'contain',
-  },
-  newDesign: {
-    backgroundColor: 'red',
   },
 });

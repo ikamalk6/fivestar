@@ -52,7 +52,7 @@ const ValidateOtpApiCall = (
       },
     })
       .then(resp => {
-        console.log('resp', resp);
+        console.log('resp', resp.data.data);
         dispatch({type: 'SET_USER_DETAIL', payload: resp.data.data});
         success(resp);
       })

@@ -18,11 +18,10 @@ import {SignupValuesModal} from '../../utils/modals';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import CustomTextInput from '../../components/customTextInput';
+import {DisableButton, EnableButton} from '../../components/customButton';
+import {STRINGNAME} from '../../utils/string';
 export default function SignUp() {
   const dispatch = useDispatch<any>();
-  // const {name, email, password, countryCode, phoneNo} = useSelector(
-  //   (store: any) => store.SignUpReducer,
-  // );
   const [isLoading, setIsLoading] = useState(false);
 
   const navigation = useNavigation<any>();
@@ -30,9 +29,10 @@ export default function SignUp() {
   return (
     <Formik
       initialValues={new SignupValuesModal()}
-      onSubmit={values => {
+      onSubmit={(values, {resetForm}) => {
         setIsLoading(true);
         console.log('on Submit', values);
+
         dispatch(
           SignUpApiCall(
             values,
@@ -48,6 +48,7 @@ export default function SignUp() {
             },
           ),
         );
+        resetForm();
       }}
       validationSchema={yup.object().shape({
         name: yup.string().min(3, 'too short').max(30, 'too long').required(),
@@ -59,11 +60,11 @@ export default function SignUp() {
         email: yup.string().email('enter valid email').required(),
         password: yup
           .string()
-          .min(6, 'too short')
+          .min(6, 'minimunm 8 characters are required')
           .max(15, 'too long')
-          .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-          )
+          // .matches(
+          //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          // )
           .required(),
         checkToggle: yup.boolean().equals([true], 'must agree'),
       })}>
@@ -78,16 +79,6 @@ export default function SignUp() {
         handleBlur,
       }) => (
         <View style={styles.main}>
-          {/* <TouchableOpacity
-            style={{width: 20}}
-            onPress={() => {
-              navigation.navigate('LoginScreen');
-            }}>
-            <Image
-              style={styles.arrow}
-              source={require('../../assets/image/lefta.png')}
-            />
-          </TouchableOpacity> */}
           <ScrollView showsVerticalScrollIndicator={false}>
             <GoBack />
             <View style={styles.inner}>
@@ -111,8 +102,8 @@ export default function SignUp() {
                 value={values.phoneNo}
                 keyboardType="numeric"
                 onBlur={handleBlur('phoneNo')}
-                maxLength={10}
                 onChangeText={handleChange('phoneNo')}
+                maxLength={10}
               />
 
               {touched.phoneNo && errors.phoneNo && (
@@ -186,19 +177,17 @@ export default function SignUp() {
               {touched.checkToggle && errors.checkToggle && (
                 <Text style={styles.warning}>{errors.checkToggle}</Text>
               )}
-              <TouchableOpacity
-                style={isValid ? styles.button : styles.buttonDisabled}
-                disabled={!isValid}
-                onPress={handleSubmit}
-                //
-              >
-                <Text
-                  style={
-                    isValid ? styles.buttonText : styles.buttonTextDisabled
-                  }>
-                  {'CREATE ACCOUNT'}
-                </Text>
-              </TouchableOpacity>
+
+              <View>
+                {isValid && values.name != '' ? (
+                  <EnableButton
+                    label={STRINGNAME.CREATE_ACCOUNT}
+                    onPress={handleSubmit}
+                  />
+                ) : (
+                  <DisableButton label={STRINGNAME.CREATE_ACCOUNT} />
+                )}
+              </View>
               <View style={styles.orStyle}>
                 <View style={styles.line}></View>
                 <Text style={styles.orButton}>{' OR '}</Text>

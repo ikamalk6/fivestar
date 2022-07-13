@@ -84,10 +84,7 @@ const styles = StyleSheet.create({
     borderColor: COLOR.sky,
     backgroundColor: COLOR.light_Black2,
     paddingHorizontal: normalize(10),
-    // paddingVertical: normalize(20),
-    // justifyContent: 'center',
     alignSelf: 'center',
-    // flex: 1,
   },
   cancelBtn: {
     height: normalize(24),
@@ -108,8 +105,6 @@ const styles = StyleSheet.create({
     height: normalize(104),
     width: '100%',
     marginVertical: normalize(10),
-    // width: normalize(327),
-    // resizeMode: 'contain',
     borderRadius: normalize(5),
   },
   images: {
@@ -119,15 +114,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.sky,
     borderRadius: normalize(5),
-
-    // width: vw(327),
   },
   fantxt: {
     color: COLOR.white,
     fontWeight: '900',
     fontSize: 24,
     top: normalize(130),
-
-    // zIndex: 2,
   },
 });

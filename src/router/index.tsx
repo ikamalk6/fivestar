@@ -1,20 +1,16 @@
 import React from 'react';
+import {StatusBar} from 'react-native';
+import {STRINGNAME} from '../utils/string';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SplashScreen from '../screens/splashScreen';
 import LoginScreen from '../screens/loginScreen';
 import SignUp from '../screens/signUpScreen';
-import SplashScreen from '../screens/splashScreen';
 import Terms from '../screens/termScreen';
 import ValidateOtp from '../screens/validateOtp';
 import ChoicePage from '../screens/choicePage';
 import CompleteProfile from '../screens/completeProfile';
-import {StatusBar} from 'react-native';
-import FindAccount from '../screens/findAccount';
-import FindMobileAccount from '../screens/findAccount/withNumber';
-import FindEmailAccount from '../screens/findAccount/withEmail';
-
-import {STRINGNAME} from '../utils/string';
-import ResetPassword from '../screens/resetPassword';
+import ZipCode from '../screens/completeProfile/zipCode';
 import SportsLogoScr from '../screens/completeProfile/sportsLogo';
 
 export default function NavigationScreen() {
@@ -64,6 +60,11 @@ export default function NavigationScreen() {
           name={STRINGNAME.SPORTSLOGOSCR}
           component={SportsLogoScr}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ZipCode"
+          component={ZipCode}
+          options={{headerShown: false, presentation: 'transparentModal'}}
         />
         {/* <Stack.Screen name="FindAccount" component={FindAccount} /> */}
         {/* <Stack.Screen name="FindMobileAccount" component={FindMobileAccount} /> */}

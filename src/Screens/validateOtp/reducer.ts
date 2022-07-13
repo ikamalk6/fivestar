@@ -1,5 +1,5 @@
 const initialState = {
-  userdata: [],
+  userdata: {},
 };
 
 const ValidateOtpReducer = (state = initialState, action: any) => {

@@ -9,7 +9,6 @@ export const STRINGNAME = {
   COMPLETE_PROFILE: 'CompleteProfile',
   CONFIRM_NEW_PASSWORD: 'Confirm New Password',
   CHOICE_PAGE: 'ChoicePage',
-  CREATE_ACCOUT: 'Create Account',
   CHNAGE_YOUR_USERNAME: 'Change your Username',
   CREATE_ACCOUNT: 'Create Account',
   ENTER_NEW_PASSWORD: 'Enter New Password',

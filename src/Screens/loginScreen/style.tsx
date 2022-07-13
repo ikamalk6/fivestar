@@ -113,15 +113,16 @@ const styles = StyleSheet.create({
   eyeBttn: {
     height: normalize(15),
     width: normalize(20),
-    bottom: normalize(28),
     position: 'absolute',
     right: normalize(28),
-    zIndex: 100,
+    zIndex: 3,
   },
   eye: {
     height: vh(15),
     width: vw(20),
     resizeMode: 'contain',
+    position: 'absolute',
+    top: 35,
   },
   glogo: {
     width: normalize(328),

@@ -1,8 +1,7 @@
 import axios from 'axios';
-
-export const SportAction = (data: string) => {
-  //  {data =auth token}
-
+import React from 'react';
+export const zipcodeAction = (text: string) => {
+  console.log(text);
   return (dispatch: any) => {
     const $https = axios.create({
       baseURL: 'https://fivestardevapi.appskeeper.in/api/v1',
@@ -11,15 +10,15 @@ export const SportAction = (data: string) => {
         Accept: 'application/json',
       },
     });
-    $https.defaults.headers.common.Authorization = `Bearer ${data}`;
+
     $https
-      .get('/user/sports')
+      .get(`/zipcode-list?&search=${text}&page=1`)
       .then(resp => {
-        console.log('========>', resp.data.data);
-        dispatch({type: 'SPORTS_SET', payload: resp.data.data});
+        console.log('========>', resp);
+        dispatch({type: 'ZIPCODE_SET', payload: resp.data.data});
       })
       .catch(error => {
-        console.log('sports', error);
+        console.log('ZIPCODEERRRORRR', error);
       });
   };
 };

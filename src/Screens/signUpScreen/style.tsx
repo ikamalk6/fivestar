@@ -49,6 +49,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: normalize(30),
   },
+  buttonText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'black',
+    fontWeight: '900',
+    fontStyle: 'italic',
+  },
   buttonDisabled: {
     backgroundColor: COLOR.mud,
     borderRadius: 5,
@@ -62,13 +69,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: COLOR.grey,
-    fontWeight: '900',
-    fontStyle: 'italic',
-  },
-  buttonText: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: 'black',
     fontWeight: '900',
     fontStyle: 'italic',
   },
@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
   signIn: {
     flexDirection: 'row',
     alignSelf: 'center',
+    paddingBottom: normalize(30),
   },
   already: {
     color: COLOR.white,

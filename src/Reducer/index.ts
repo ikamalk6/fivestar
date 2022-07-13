@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux';
+import ProfileReducer from '../screens/completeProfile/reducer';
 import SignUpReducer from '../screens/signUpScreen/reducer';
 import ValidateOtpReducer from '../screens/validateOtp/reducer';
-import ComProfReducer from '../screens/completeProfile/reducer';
 
 const rootReducer = combineReducers({
   SignUpReducer,
   ValidateOtpReducer,
-  ComProfReducer,
+  ProfileReducer,
 });
 export default rootReducer;

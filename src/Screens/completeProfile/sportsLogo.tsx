@@ -1,243 +1,126 @@
-// import {
-//   FlatList,
-//   StyleSheet,
-//   Text,
-//   View,
-//   Image,
-//   TouchableOpacity,
-// } from 'react-native';
-// import React from 'react';
-
-// import {useSelector} from 'react-redux';
-// import {normalize, vh, vw} from '../../utils/dimensions';
-// import {STRINGNAME} from '../../utils/string';
-// import COLOR from '../../utils/colors';
-// import GoBack from '../../components/goBackBtn';
-
-// export default function SportsLogoScr() {
-//   const {sports} = useSelector((store: any) => store.ComProfReducer);
-//   console.log('SPORTS________________', sports);
-
-//   const renderItem = ({item}: any) => {
-//     return (
-//       <TouchableOpacity style={styles.logoContainer}>
-//         <Image style={styles.logoStyle} source={{uri: item?.sportImg}} />
-//         <Text style={styles.sportName}>{item?.sportName}</Text>
-//       </TouchableOpacity>
-//     );
-//   };
-
-//   return (
-//     <View style={styles.mainView}>
-//       {/* <GoBack /> */}
-//       <Text style={styles.header}>{STRINGNAME.WHAT_SPORTS_DO_YOU_LIKE}</Text>
-//       <View style={styles.searchBar}>
-//         <Text style={styles.searchTxt}>{STRINGNAME.SEARCH_SPORTS}</Text>
-//       </View>
-//       <FlatList
-//         data={sports}
-//         renderItem={renderItem}
-//         numColumns={3}
-//         showsVerticalScrollIndicator={false}
-//         bounces={false}
-//       />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   mainView: {
-//     flex: 1,
-//     backgroundColor: COLOR.black,
-//     paddingLeft: normalize(1),
-//     paddingRight: normalize(19),
-//   },
-//   header: {
-//     fontSize: normalize(24),
-//     fontStyle: 'italic',
-//     fontWeight: '900',
-//     marginVertical: normalize(5),
-//     color: COLOR.white,
-//   },
-//   searchBar: {
-//     height: vh(40),
-//     width: vw(330),
-//     borderColor: COLOR.white,
-//     borderWidth: normalize(1),
-//     opacity: normalize(0.5),
-//     borderRadius: normalize(5),
-//     marginVertical: normalize(10),
-//     marginLeft: normalize(26),
-//     // marginRight: normalize(19),
-//   },
-//   searchTxt: {
-//     color: COLOR.white,
-//     fontSize: 16,
-//     paddingTop: 7,
-//     paddingLeft: 10,
-//   },
-//   logoContainer: {
-//     height: normalize(112),
-//     width: normalize(104),
-//     backgroundColor: COLOR.light_Black,
-//     borderRadius: normalize(5),
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     margin: normalize(5),
-//   },
-//   logoStyle: {
-//     height: normalize(45),
-//     width: normalize(45),
-//     resizeMode: 'contain',
-//     marginVertical: normalize(5),
-//   },
-//   sportName: {
-//     color: COLOR.white,
-//   },
-// });
-
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useState} from 'react';
+import {View, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import {vh, vw, normalize} from '../../utils/dimensions';
-import {IMAGE} from '../../utils/images';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import COLOR from '../../utils/colors';
+import {normalize, vh, vw} from '../../utils/dimensions';
+import CustomSportSelection from '../../components/customSportGrid';
 import GoBack from '../../components/goBackBtn';
-import {STRINGNAME} from '../../utils/string';
+import {DisableButton, EnableButton} from '../../components/customButton';
+import CustomSearchButton from '../../components/customSearchbtn';
 
-const SportsLogoScr = () => {
-  const {sports} = useSelector((store: any) => store.ComProfReducer);
+export default function SportsLogoScr(props: any) {
+  const {callback}: any = useRoute().params;
+  const sportsdata = useSelector((store: any) => store.ProfileReducer);
+  const newData = sportsdata?.sportsdata;
+  const navigation = useNavigation();
+  const [selectedSports, setselectedSports] = useState([]);
 
-  const [checked, setChecked] = useState<boolean>(false);
+  useEffect(() => {
+    callback(selectedSports);
+  }, [selectedSports]);
 
-  const toggleCheckedItem = () => {
-    setChecked(!checked);
-  };
+  const helper = useCallback(
+    (item: any) => {
+      const index = selectedSports.findIndex(x => x == item);
+      console.log('selectedSports index', index);
 
-  const renderItem = ({item}: any) => {
+      if (index == -1) {
+        setselectedSports([...selectedSports, item]);
+      } else {
+        selectedSports.splice(index, 1);
+        setselectedSports([...selectedSports]);
+      }
+    },
+    [selectedSports],
+  );
+  const renderItems = ({item}: any) => {
     return (
-      <View>
-        <TouchableOpacity
-          onPress={toggleCheckedItem}
-          style={!checked ? styles.SportsViewStyle : styles.ActiveViewStyle}>
-          <Image
-            style={
-              !checked ? styles.SportsImageStyle : styles.SportsActiveImageStyle
-            }
-            source={{uri: item?.sportImg}}
-          />
-          <Text
-            style={
-              !checked ? styles.SportsNameStyle : styles.SportsActiveNameStyle
-            }>
-            {item.sportName}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <CustomSportSelection
+        img={item.sportImg}
+        imgText={item.sportName}
+        helper={helper}
+      />
     );
   };
 
   return (
-    <View
-      style={{flex: 1, backgroundColor: 'black', paddingTop: normalize(40)}}>
+    <View style={styles.container}>
       <GoBack />
-      <Text style={styles.header}>{STRINGNAME.WHAT_SPORTS_DO_YOU_LIKE}</Text>
-      <View style={styles.searchBar}>
-        <Text style={styles.searchTxt}>{STRINGNAME.SEARCH_SPORTS}</Text>
-      </View>
+      {/* <CustomSearchButton /> */}
       <FlatList
-        contentContainerStyle={styles.FlatListViewStyle}
-        data={sports}
-        renderItem={renderItem}
+        data={newData}
+        renderItem={renderItems}
         numColumns={3}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        // ItemSeparatorComponent={}
       />
-      {checked ? (
-        <Image style={{height: 30, width: 330}} source={IMAGE.saveEnable} />
+      {selectedSports.length > 0 ? (
+        <EnableButton label="CONTINUE" onPress={() => navigation.goBack()} />
       ) : (
-        <Image style={{height: 30, width: 330}} source={IMAGE.saveDisable} />
+        <DisableButton label="CONTINUE" disabled={true} />
       )}
     </View>
   );
-};
-
-export default SportsLogoScr;
-
+}
 const styles = StyleSheet.create({
-  SportsImageStyle: {
-    height: vh(45),
-    width: vw(45),
-    resizeMode: 'contain',
+  container: {
+    flex: 1,
+    backgroundColor: COLOR.black,
+    paddingTop: 50,
   },
-  SportsActiveImageStyle: {
-    height: vh(45),
-    width: vw(45),
-    resizeMode: 'contain',
-    tintColor: 'black',
+  body: {
+    // marginLeft: normalize(20),
   },
-  SportsNameStyle: {
-    color: COLOR.white,
-    marginTop: normalize(12),
-    textAlign: 'center',
-  },
-  SportsActiveNameStyle: {
-    color: COLOR.black,
-    marginTop: normalize(12),
-    textAlign: 'center',
-  },
-  SportsViewStyle: {
-    height: vh(112),
-    width: vw(104),
-    margin: normalize(8),
-    backgroundColor: '#121212',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  ActiveViewStyle: {
-    height: vh(112),
-    width: vw(104),
-    margin: normalize(8),
-    backgroundColor: COLOR.sky,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  FlatListViewStyle: {
-    marginHorizontal: normalize(4),
-  },
-  backImageStyle: {
-    height: vh(20),
-    width: vw(12),
-    marginLeft: normalize(24),
-  },
-  header: {
-    fontSize: normalize(24),
-    fontStyle: 'italic',
-    fontWeight: '900',
-    marginVertical: normalize(5),
-    color: COLOR.white,
-  },
-  searchBar: {
-    height: normalize(40),
-    width: normalize(330),
-    borderColor: COLOR.white,
-    borderWidth: normalize(1),
-    opacity: normalize(0.5),
+  textInputViewStyle: {
+    borderWidth: 1,
+    height: normalize(45),
+    width: normalize(340),
     borderRadius: normalize(5),
-    marginVertical: normalize(10),
+    marginTop: normalize(5),
+    borderColor: COLOR.white,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: normalize(19),
   },
-  searchTxt: {
+  searchImgStyle: {
+    height: normalize(20),
+    width: normalize(20),
+    marginLeft: normalize(15),
+  },
+  textInputStyle: {
+    marginHorizontal: normalize(20),
+    height: normalize(45),
+    fontSize: 14,
     color: COLOR.white,
-    fontSize: 16,
-    paddingTop: 7,
-    paddingLeft: 10,
+  },
+  sportTextHeader: {
+    color: COLOR.white,
+    width: normalize(280),
+    height: normalize(64),
+    fontSize: 24,
+    fontWeight: '900',
+  },
+  renderContainer: {
+    marginHorizontal: normalize(5),
+    width: normalize(104),
+    height: normalize(112),
+    marginTop: normalize(20),
+    // backgroundColor: '#121212'
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    marginLeft: normalize(15),
+  },
+  sportsImg: {
+    height: normalize(50),
+    width: normalize(50),
+    resizeMode: 'contain',
+  },
+  sportText: {
+    color: COLOR.white,
+    marginTop: normalize(10),
   },
 });

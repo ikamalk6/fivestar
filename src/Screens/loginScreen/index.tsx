@@ -37,6 +37,7 @@ export default function LoginScreen() {
         })
           .then(resp => {
             console.log('responseLogin', resp);
+            // navigation.naivagte({STRINGNAME.CompleteProfile})
           })
           .catch(err => {
             console.log('error', err);
