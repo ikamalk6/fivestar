@@ -11,7 +11,7 @@ const ProfileReducer = (state = intialState, action: any) => {
     case 'ZIPCODE_SET':
       return {...state, zipCodeData: payload};
     default:
-      return {...state};
+      return state;
   }
 };
 export default ProfileReducer;

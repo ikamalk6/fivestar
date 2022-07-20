@@ -1,23 +1,19 @@
 import {StyleSheet, Text, View, TextInput, Image} from 'react-native';
 import React from 'react';
-
 import {normalize} from '../utils/dimensions';
-
 import COLOR from '../utils/colors';
 import {IMAGE} from '../utils/images';
-import {STRINGNAME} from '../utils/string';
 
-export default function CustomSearchButton() {
+export default function CustomSearchBar(props: any) {
+  const {heading, placeholder, style} = props;
   return (
-    <View style={styles.body}>
-      <Text style={styles.sportTextHeader}>
-        {STRINGNAME.WHAT_SPORTS_DO_YOU_LIKE}
-      </Text>
+    <View style={[styles.mainView, style]}>
+      <Text style={styles.sportTextHeader}>{heading}</Text>
       <View style={styles.textInputViewStyle}>
-        <Image style={styles.searchImgStyle} source={IMAGE.tick} />
+        <Image style={styles.searchImgStyle} source={IMAGE.search} />
         <TextInput
           style={styles.textInputStyle}
-          placeholder={'search sport'}
+          placeholder={placeholder}
           placeholderTextColor={COLOR.white}
         />
       </View>
@@ -26,9 +22,8 @@ export default function CustomSearchButton() {
 }
 
 const styles = StyleSheet.create({
-  body: {
+  mainView: {
     marginLeft: normalize(15),
-    marginTop: normalize(10),
   },
   textInputViewStyle: {
     borderWidth: 1,
@@ -36,47 +31,29 @@ const styles = StyleSheet.create({
     width: normalize(350),
     borderRadius: normalize(5),
     marginTop: normalize(5),
-    borderColor: COLOR.WHITE,
+    borderColor: COLOR.white,
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: normalize(19),
+    // marginRight: normalize(19),
   },
   searchImgStyle: {
     height: normalize(20),
     width: normalize(20),
     marginLeft: normalize(15),
+    resizeMode: 'contain',
   },
   textInputStyle: {
     marginHorizontal: normalize(20),
     height: normalize(45),
     fontSize: 14,
-    color: COLOR.WHITE,
+    color: COLOR.white,
   },
   sportTextHeader: {
-    color: COLOR.WHITE,
+    color: COLOR.white,
     width: normalize(280),
     height: normalize(64),
     fontSize: 24,
     fontWeight: '900',
+    fontStyle: 'italic',
   },
-  //   renderContainer: {
-  //     marginHorizontal: normalize(5),
-  //     width: normalize(104),
-  //     height: normalize(112),
-  //     marginTop: normalize(20),
-  //     backgroundColor: '#121212',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     borderRadius: 5,
-  //   },
-  //   sportsImg: {
-  //     height: normalize(50),
-  //     width: normalize(50),
-  //     resizeMode: 'contain',
-  //   },
-  //   sportText: {
-  //     color: COLOR.WHITE,
-  //     marginTop: normalize(10),
-  //   },
-  // });
 });

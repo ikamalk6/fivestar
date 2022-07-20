@@ -180,5 +180,13 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
   },
+  activiyIndicator: {
+    position: 'absolute',
+    top: 350,
+    left: 180,
+  },
+  passInp: {
+    paddingRight: 35,
+  },
 });
 export default styles;

@@ -1,5 +1,5 @@
 const initialState = {
-  userdata: {},
+  userdata: [],
 };
 
 const ValidateOtpReducer = (state = initialState, action: any) => {
@@ -9,7 +9,7 @@ const ValidateOtpReducer = (state = initialState, action: any) => {
     case 'SET_USER_DETAIL':
       return {...state, userdata: payload};
     default:
-      return {state};
+      return state;
   }
 };
 export default ValidateOtpReducer;

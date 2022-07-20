@@ -1,6 +1,5 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
-import {STRINGNAME} from '../utils/string';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from '../screens/splashScreen';
@@ -12,6 +11,9 @@ import ChoicePage from '../screens/choicePage';
 import CompleteProfile from '../screens/completeProfile';
 import ZipCode from '../screens/completeProfile/zipCode';
 import SportsLogoScr from '../screens/completeProfile/sportsLogo';
+import {ROUTE_NAME} from './routeNames';
+import BottomStack from './bottomStack';
+import SuggestionPage from '../screens/suggetionPage';
 
 export default function NavigationScreen() {
   const Stack = createNativeStackNavigator();
@@ -20,57 +22,62 @@ export default function NavigationScreen() {
       <StatusBar barStyle={'light-content'} />
       <Stack.Navigator>
         <Stack.Screen
-          name={STRINGNAME.SPLASH_SCREEN}
+          name={ROUTE_NAME.SPLASH_SCREEN}
           component={SplashScreen}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name={STRINGNAME.LOGIN_SCREEN}
+          name={ROUTE_NAME.LOGIN_SCREEN}
           component={LoginScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={STRINGNAME.SIGNUP}
+          name={ROUTE_NAME.SIGNUP}
           component={SignUp}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={STRINGNAME.TERMS}
+          name={ROUTE_NAME.TERMS}
           component={Terms}
-          options={{headerShown: false}}
+          options={{headerShown: false, presentation: 'modal'}}
         />
         <Stack.Screen
           options={{headerShown: false}}
-          name={STRINGNAME.VALIDATEOTP}
+          name={ROUTE_NAME.VALIDATEOTP}
           component={ValidateOtp}
         />
         <Stack.Screen
-          name={STRINGNAME.CHOICE_PAGE}
+          name={ROUTE_NAME.CHOICE_PAGE}
           component={ChoicePage}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={STRINGNAME.COMPLETE_PROFILE}
+          name={ROUTE_NAME.COMPLETE_PROFILE}
           component={CompleteProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={STRINGNAME.SPORTSLOGOSCR}
+          name={ROUTE_NAME.SPORTSLOGOSCR}
           component={SportsLogoScr}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="ZipCode"
+          name={ROUTE_NAME.ZIP_CODE}
           component={ZipCode}
           options={{headerShown: false, presentation: 'transparentModal'}}
         />
-        {/* <Stack.Screen name="FindAccount" component={FindAccount} /> */}
-        {/* <Stack.Screen name="FindMobileAccount" component={FindMobileAccount} /> */}
-        {/* <Stack.Screen name="FindEmailAccount" component={FindEmailAccount} /> */}
-        {/* <Stack.Screen name="SportsScreen" component={SportsScreen} /> */}
-        {/* <Stack.Screen name="Reset" component={ResetPassword} /> */}
+        <Stack.Screen
+          name={ROUTE_NAME.SUGGESTION_PAGE}
+          component={SuggestionPage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={ROUTE_NAME.BOTTOM_STACK}
+          component={BottomStack}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

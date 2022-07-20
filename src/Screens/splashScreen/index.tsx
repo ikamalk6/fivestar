@@ -13,11 +13,16 @@ import {useNavigation} from '@react-navigation/native';
 import {normalize, vh, vw} from '../../utils/dimensions';
 import {IMAGE} from '../../utils/images';
 import {STRINGNAME} from '../../utils/string';
-
+import ValidateOtpReducer from '../validateOtp/reducer';
+import {useSelector} from 'react-redux';
+import {ROUTE_NAME} from '../../router/routeNames';
 const {height, width} = Dimensions.get('window');
 
 export default function SplashScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const navigation = useNavigation<any>();
+  const {userdata} = useSelector((Store: any) => Store.ValidateOtpReducer);
+  console.log('user---------------------', userdata?.authToken);
 
   useEffect(() => {
     Animated.spring(fadeAnim, {
@@ -30,9 +35,15 @@ export default function SplashScreen() {
   }, [fadeAnim]);
 
   useEffect(() => {
-    setTimeout(() => navigation.replace(STRINGNAME.LOGIN_SCREEN), 3000);
-  });
-  const navigation = useNavigation<any>();
+    setTimeout(() => {
+      // if (userdata?.authtoken) {
+      //   navigation.navigate(ROUTE_NAME.SIGNUP);
+      // } else {
+      //   navigation.navigate(ROUTE_NAME.BOTTOM_STACK);
+      // }
+      navigation.replace(ROUTE_NAME.LOGIN_SCREEN);
+    }, 3000);
+  }, []);
 
   return (
     <View style={styles.mainView}>
@@ -86,8 +97,7 @@ const styles = StyleSheet.create({
     zIndex: 3,
     position: 'absolute',
     marginLeft: normalize(200),
-    // marginBottom: 50,
-    // top: 65,
+
     top: Platform.OS === 'ios' ? normalize(83) : normalize(40),
   },
 });

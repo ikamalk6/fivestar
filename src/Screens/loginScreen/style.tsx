@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: '900',
     fontStyle: 'italic',
-    marginBottom: normalize(20),
+    marginBottom: normalize(10),
     paddingHorizontal: normalize(8),
   },
 
@@ -44,9 +44,12 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '900',
     fontStyle: 'italic',
+    textTransform: 'uppercase',
   },
   buttonTextInvalid: {
     fontSize: 16,
+    textTransform: 'uppercase',
+
     textAlign: 'center',
     color: COLOR.grey,
     fontWeight: '900',
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
     width: vw(20),
     resizeMode: 'contain',
     position: 'absolute',
-    top: 35,
+    top: 40,
   },
   glogo: {
     width: normalize(328),
@@ -130,12 +133,20 @@ const styles = StyleSheet.create({
     borderRadius: normalize(5),
     resizeMode: 'contain',
   },
-  passBox: {justifyContent: 'space-between'},
+  passBox: {
+    justifyContent: 'space-between',
+  },
+  passInp: {
+    paddingRight: 33,
+  },
   signUptxt: {
     color: COLOR.sky,
     fontStyle: 'italic',
     fontWeight: '900',
     fontSize: 18,
+  },
+  txtinp: {
+    marginVertical: normalize(16),
   },
 });
 export default styles;

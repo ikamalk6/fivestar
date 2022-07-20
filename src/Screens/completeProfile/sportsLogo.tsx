@@ -7,7 +7,8 @@ import {normalize, vh, vw} from '../../utils/dimensions';
 import CustomSportSelection from '../../components/customSportGrid';
 import GoBack from '../../components/goBackBtn';
 import {DisableButton, EnableButton} from '../../components/customButton';
-import CustomSearchButton from '../../components/customSearchbtn';
+import {STRINGNAME} from '../../utils/string';
+import CustomSearchBar from '../../components/customSearchBar';
 
 export default function SportsLogoScr(props: any) {
   const {callback}: any = useRoute().params;
@@ -26,6 +27,7 @@ export default function SportsLogoScr(props: any) {
       console.log('selectedSports index', index);
 
       if (index == -1) {
+        //@ts-ignore
         setselectedSports([...selectedSports, item]);
       } else {
         selectedSports.splice(index, 1);
@@ -46,8 +48,11 @@ export default function SportsLogoScr(props: any) {
 
   return (
     <View style={styles.container}>
-      <GoBack />
-      {/* <CustomSearchButton /> */}
+      <GoBack style={styles.backBtn} />
+      <CustomSearchBar
+        heading={STRINGNAME.WHAT_SPORTS_DO_YOU_LIKE}
+        placeholder={STRINGNAME.SEARCH_SPORTS}
+      />
       <FlatList
         data={newData}
         renderItem={renderItems}
@@ -57,7 +62,11 @@ export default function SportsLogoScr(props: any) {
         // ItemSeparatorComponent={}
       />
       {selectedSports.length > 0 ? (
-        <EnableButton label="CONTINUE" onPress={() => navigation.goBack()} />
+        <EnableButton
+          style={{marginBottom: 20, width: 360}}
+          label="CONTINUE"
+          onPress={() => navigation.goBack()}
+        />
       ) : (
         <DisableButton label="CONTINUE" disabled={true} />
       )}
@@ -122,5 +131,8 @@ const styles = StyleSheet.create({
   sportText: {
     color: COLOR.white,
     marginTop: normalize(10),
+  },
+  backBtn: {
+    marginLeft: 15,
   },
 });

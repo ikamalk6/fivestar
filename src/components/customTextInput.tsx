@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import React from 'react';
 import {TextInput} from 'react-native-paper';
 import COLOR from '../utils/colors';
-import {vw} from '../utils/dimensions';
+import {vw, vh} from '../utils/dimensions';
 
 export default function CustomTextInput(props: any) {
   let {right, style} = props;
@@ -35,8 +35,7 @@ const styles = StyleSheet.create({
   inputText: {
     marginVertical: 10,
     borderRadius: 5,
-    // justifyContent: 'center',
-    // flexWrap: 'nowrap',
+    // height: vh(48),
     width: vw(328),
     alignSelf: 'center',
   },

@@ -17,7 +17,7 @@ const persistConfig = {
   key: 'root',
   timeout: 0,
   storage: AsyncStorage,
-  whitelist: [],
+  whitelist: ['ValidateOtpReducer'],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = createStore(persistedReducer, {}, enhancer);

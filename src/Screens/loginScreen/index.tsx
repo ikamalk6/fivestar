@@ -9,39 +9,18 @@ import OnGoogleButtonPress from '../../utils/googleButton';
 import CustomTextInput from '../../components/customTextInput';
 import {STRINGNAME} from '../../utils/string';
 import {IMAGE} from '../../utils/images';
+import {ROUTE_NAME} from '../../router/routeNames';
+import {LoginValuesModal} from '../../utils/modals';
 
 export default function LoginScreen() {
   const navigation = useNavigation<any>();
   return (
     <Formik
-      initialValues={{
-        email: '',
-        phoneNo: '',
-        password: '',
-        toggle: false,
-        city: '',
-      }}
+      initialValues={new LoginValuesModal()}
       onSubmit={(values, {resetForm}) => {
         Alert.alert('Login succesfull');
-        console.log('on Submit', values);
+        console.log('on Submit LOGIN values', values);
         resetForm();
-        axios({
-          method: 'post',
-          url: 'https://fivestardevapi.appskeeper.in/api/v1/user/login',
-          data: {
-            email: values.email,
-            password: values.password,
-            countryCode: '+1',
-            phoneNo: values.phoneNo,
-          },
-        })
-          .then(resp => {
-            console.log('responseLogin', resp);
-            // navigation.naivagte({STRINGNAME.CompleteProfile})
-          })
-          .catch(err => {
-            console.log('error', err);
-          });
       }}
       validationSchema={yup.object().shape({
         email: yup.string().email().required(STRINGNAME.INVALID_CRED),
@@ -68,9 +47,10 @@ export default function LoginScreen() {
               </Text>
             </View>
             <CustomTextInput
-              label={'Mobile number / Email'}
               value={values.email}
               autoCapitalize="none"
+              style={styles.txtinp}
+              label={STRINGNAME.MOBILE_EMAIL}
               onChangeText={handleChange('email')}
               onBlur={() => setFieldTouched('email')}
             />
@@ -80,9 +60,11 @@ export default function LoginScreen() {
 
             <View style={styles.passBox}>
               <CustomTextInput
-                label={'Password'}
-                value={values.password}
                 autoCapitalize="none"
+                style={styles.passInp}
+                value={values.password}
+                numberOfLines={1}
+                label={STRINGNAME.PASSWORD}
                 onChangeText={handleChange('password')}
                 onBlur={() => setFieldTouched('password')}
                 secureTextEntry={!values.toggle ? true : false}
@@ -120,13 +102,13 @@ export default function LoginScreen() {
                     ? styles.buttonText
                     : styles.buttonTextInvalid
                 }>
-                {'SIGN IN'}
+                {STRINGNAME.SIGNIN}
               </Text>
             </TouchableOpacity>
             <View style={styles.orStyle}>
-              <View style={styles.line}></View>
-              <Text style={styles.orButton}>{' OR '}</Text>
-              <View style={styles.line}></View>
+              <View style={styles.line} />
+              <Text style={styles.orButton}>{' ' + STRINGNAME.OR + ' '}</Text>
+              <View style={styles.line} />
             </View>
 
             <TouchableOpacity
@@ -138,7 +120,7 @@ export default function LoginScreen() {
             <TouchableOpacity
               style={styles.apple}
               onPress={() => {
-                navigation.navigate('ValidateOtp');
+                navigation.navigate(ROUTE_NAME.VALIDATEOTP);
               }}>
               <Image style={styles.glogo} source={IMAGE.appleLogo} />
             </TouchableOpacity>
@@ -147,7 +129,7 @@ export default function LoginScreen() {
               <Text style={styles.newUserT}>{STRINGNAME.I_AM_NEW_USER}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate(STRINGNAME.SIGNUP);
+                  navigation.navigate(ROUTE_NAME.SIGNUP);
                 }}>
                 <Text style={styles.signUptxt}>{STRINGNAME.SIGNUP1}</Text>
               </TouchableOpacity>

@@ -20,11 +20,22 @@ import {useNavigation} from '@react-navigation/native';
 import CustomTextInput from '../../components/customTextInput';
 import {DisableButton, EnableButton} from '../../components/customButton';
 import {STRINGNAME} from '../../utils/string';
+import {ROUTE_NAME} from '../../router/routeNames';
+import {IMAGE} from '../../utils/images';
 export default function SignUp() {
   const dispatch = useDispatch<any>();
+  const navigation = useNavigation<any>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigation = useNavigation<any>();
+  const toLogin = () => {
+    navigation.navigate(ROUTE_NAME.LOGIN_SCREEN);
+  };
+  const toTerms = () => {
+    navigation.navigate(ROUTE_NAME.TERMS);
+  };
+  const toOTP = () => {
+    navigation.navigate(ROUTE_NAME.VALIDATEOTP);
+  };
 
   return (
     <Formik
@@ -39,12 +50,12 @@ export default function SignUp() {
             (resp: any) => {
               if (resp?.status === 200) {
                 setIsLoading(false);
-                navigation.navigate('ValidateOtp');
+                toOTP();
               }
             },
             (error: any) => {
               setIsLoading(false);
-              Alert.alert('error', error);
+              console.log('ERROR', error);
             },
           ),
         );
@@ -54,17 +65,17 @@ export default function SignUp() {
         name: yup.string().min(3, 'too short').max(30, 'too long').required(),
         phoneNo: yup
           .number()
-          .min(1000000000, 'ENTER_VALID_PHONE_NUMBER')
-          .max(9999999999, 'ENTER_VALID_PHONE_NUMBER')
+          .min(1000000000, 'enter valid phone number')
+          .max(9999999999, 'enter valid phone number')
           .required(),
         email: yup.string().email('enter valid email').required(),
         password: yup
           .string()
           .min(6, 'minimunm 8 characters are required')
           .max(15, 'too long')
-          // .matches(
-          //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-          // )
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          )
           .required(),
         checkToggle: yup.boolean().equals([true], 'must agree'),
       })}>
@@ -83,8 +94,10 @@ export default function SignUp() {
             <GoBack />
             <View style={styles.inner}>
               <View>
-                <Text style={styles.create}>{'Create Account'}</Text>
-                <Text style={styles.started}>{'Signup to get started'}</Text>
+                <Text style={styles.create}>{STRINGNAME.CREATE_ACCOUNT}</Text>
+                <Text style={styles.started}>
+                  {STRINGNAME.SIGN_UP_TO_GET_STARTED}
+                </Text>
               </View>
 
               <CustomTextInput
@@ -126,6 +139,7 @@ export default function SignUp() {
                   secureTextEntry={values.eyeToggle ? true : false}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
+                  style={styles.passInp}
                 />
 
                 <TouchableOpacity
@@ -134,15 +148,9 @@ export default function SignUp() {
                     setFieldValue('eyeToggle', !values.eyeToggle);
                   }}>
                   {values.eyeToggle ? (
-                    <Image
-                      style={styles.eye}
-                      source={require('../../assets/image/eyes.png')}
-                    />
+                    <Image style={styles.eye} source={IMAGE.eyeDisable} />
                   ) : (
-                    <Image
-                      style={styles.eye}
-                      source={require('../../assets/image/eye.png')}
-                    />
+                    <Image style={styles.eye} source={IMAGE.eyeEnable} />
                   )}
                 </TouchableOpacity>
               </View>
@@ -155,23 +163,14 @@ export default function SignUp() {
                     setFieldValue('checkToggle', !values.checkToggle);
                   }}>
                   {values.checkToggle ? (
-                    <Image
-                      source={require('../../assets/image/checkbox1.png')}
-                      style={styles.box}
-                    />
+                    <Image source={IMAGE.checkBox} style={styles.box} />
                   ) : (
-                    <Image
-                      source={require('../../assets/image/check1.png')}
-                      style={styles.box}
-                    />
+                    <Image source={IMAGE.checkBox2} style={styles.box} />
                   )}
                 </TouchableOpacity>
-                <Text style={styles.termText}>{'I agree to the '}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Terms');
-                  }}>
-                  <Text style={styles.toe}>{'Terms of Use*'}</Text>
+                <Text style={styles.termText}>{STRINGNAME.I_AGREE}</Text>
+                <TouchableOpacity onPress={toTerms}>
+                  <Text style={styles.toe}>{STRINGNAME.TERMS_OF_USE}</Text>
                 </TouchableOpacity>
               </View>
               {touched.checkToggle && errors.checkToggle && (
@@ -190,37 +189,36 @@ export default function SignUp() {
               </View>
               <View style={styles.orStyle}>
                 <View style={styles.line}></View>
-                <Text style={styles.orButton}>{' OR '}</Text>
+                <Text style={styles.orButton}>{' ' + STRINGNAME.OR + ' '}</Text>
                 <View style={styles.line}></View>
               </View>
 
               <TouchableOpacity style={styles.google}>
-                <Image
-                  style={styles.glogo}
-                  source={require('../../assets/image/google.png')}
-                />
-                <Text style={styles.gText}>{'Continue With Google'}</Text>
+                <Image style={styles.glogo} source={IMAGE.google} />
+                <Text style={styles.gText}>
+                  {STRINGNAME.CONTINUE_WITH_GOOGLE}
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.apple}>
-                <Image
-                  style={styles.glogo}
-                  source={require('../../assets/image/apple.png')}
-                />
-                <Text style={styles.gText}>{'Continue with Apple'}</Text>
+                <Image style={styles.glogo} source={IMAGE.apple} />
+                <Text style={styles.gText}>
+                  {STRINGNAME.CONTINUE_WITH_APPLE}
+                </Text>
               </TouchableOpacity>
               <View style={styles.signIn}>
-                <Text style={styles.already}>{'Already a user '}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('LoginScreen');
-                  }}>
-                  <Text style={styles.sign}>{'Sign In'}</Text>
+                <Text style={styles.already}>{STRINGNAME.ALREADY}</Text>
+                <TouchableOpacity onPress={toLogin}>
+                  <Text style={styles.sign}>{STRINGNAME.SIGNIN}</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </ScrollView>
-          {isLoading && <ActivityIndicator size="large" color={COLOR.sky} />}
+          {isLoading && (
+            <View style={styles.activiyIndicator}>
+              <ActivityIndicator size="large" color={COLOR.sky} />
+            </View>
+          )}
         </View>
       )}
     </Formik>

@@ -19,6 +19,8 @@ import COLOR from '../../utils/colors';
 import {IMAGE} from '../../utils/images';
 import {normalize, vh, vw} from '../../utils/dimensions';
 import GoBack from '../../components/goBackBtn';
+import {ROUTE_NAME} from '../../router/routeNames';
+import {STRINGNAME} from '../../utils/string';
 export default function ValidateOtp() {
   const digi1 = useRef<any>(null);
   const digi2 = useRef<any>(null);
@@ -26,13 +28,13 @@ export default function ValidateOtp() {
   const digi4 = useRef<any>(null);
 
   const navigation = useNavigation<any>();
+  const dispatch = useDispatch<any>();
 
   const [otp, setOtp] = useState('');
   const [isModalVisible, setModalVisible] = useState(false);
   const {phoneNo, userId, countryCode} = useSelector(
     (store: any) => store.SignUpReducer,
   );
-  const dispatch = useDispatch<any>();
 
   return (
     <View style={styles.mainView}>
@@ -40,20 +42,20 @@ export default function ValidateOtp() {
         <View style={styles.innerView}>
           <View>
             <GoBack />
-            <Text style={styles.heading}>{'Enter Verification code'}</Text>
-            <Text style={styles.message}>
-              {`Kindly enter the 4 digit verification code sent to`}
+            <Text style={styles.heading}>
+              {STRINGNAME.ENTER_VERIFICATION_CODE}
             </Text>
-            <View style={{flexDirection: 'row', marginTop: 5}}>
+            <Text style={styles.message}>{STRINGNAME.KINDLY_ENTER_CODE}</Text>
+            <View style={styles.numberEdit}>
               <Text style={styles.message}>{phoneNo}</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                <Text style={{color: COLOR.sky, fontWeight: '800'}}>
-                  {'   Edit'}
-                </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(ROUTE_NAME.SIGNUP)}>
+                <Text style={styles.editTxt}>{STRINGNAME.EDIT}</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.inpView}>
               <TextInput
+                keyboardType="numeric"
                 ref={digi1}
                 maxLength={1}
                 onChangeText={text => {
@@ -63,6 +65,7 @@ export default function ValidateOtp() {
                 style={styles.txtinp}
               />
               <TextInput
+                keyboardType="numeric"
                 ref={digi2}
                 maxLength={1}
                 onChangeText={text => {
@@ -73,6 +76,7 @@ export default function ValidateOtp() {
               />
               <TextInput
                 ref={digi3}
+                keyboardType="numeric"
                 maxLength={1}
                 onChangeText={text => {
                   setOtp(otp => otp + text);
@@ -81,6 +85,7 @@ export default function ValidateOtp() {
                 style={styles.txtinp}
               />
               <TextInput
+                keyboardType="numeric"
                 ref={digi4}
                 maxLength={1}
                 onChangeText={text => {
@@ -93,7 +98,7 @@ export default function ValidateOtp() {
 
             {otp.length == 4 ? (
               <TouchableOpacity
-                style={styles.button1}
+                style={styles.buttonEnabled}
                 onPress={() => {
                   dispatch(
                     ValidateOtpApiCall(
@@ -104,51 +109,48 @@ export default function ValidateOtp() {
                       (code: any) => {
                         if (code?.data?.statusCode == 200) {
                           setModalVisible(!isModalVisible);
-                        } else Alert.alert('Wrong OTP');
+                        } else Alert.alert(STRINGNAME.WRONG_OTP);
                       },
                     ),
                   );
                 }}>
-                <Text style={styles.buttonText}>{'Submit'}</Text>
+                <Text style={styles.buttonText}>{STRINGNAME.SUBMIT}</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity style={styles.buttonDisabled}>
-                <Text style={styles.buttonTextDisabled}>{'Submit'}</Text>
+                <Text style={styles.buttonTextDisabled}>
+                  {STRINGNAME.SUBMIT}
+                </Text>
               </TouchableOpacity>
             )}
             <Modal isVisible={isModalVisible}>
               <View style={styles.modal}>
-                <Image
-                  style={styles.thumb}
-                  source={require('../../assets/image/rithumb.png')}
-                />
-                <Text style={styles.congo}>{'\nCONGRATULATIONS\n'}</Text>
-                <Text style={{color: 'white', textAlign: 'center'}}>
-                  {'Your account has been successfully \nregistered'}
+                <Image style={styles.thumb} source={IMAGE.rightThumb} />
+                <Text style={styles.congo}>{STRINGNAME.CONGRATULATION}</Text>
+                <Text style={styles.modalTextCongo}>
+                  {STRINGNAME.YOUR_ACCOUNT_SUCCESSFULL}
                 </Text>
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => {
                     setModalVisible(false);
-                    navigation.navigate('ChoicePage');
+                    navigation.navigate(ROUTE_NAME.CHOICE_PAGE);
                   }}>
-                  <Text style={styles.textStyle}>CONTINUE</Text>
+                  <Text style={styles.textStyle}>{STRINGNAME.CONTINUE}</Text>
                 </TouchableOpacity>
               </View>
             </Modal>
 
             <Text style={styles.otpWarn}>
-              {"Didn't received the code yet?"}
+              {STRINGNAME.DID_NOT_RECEIVE_CODE}
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-              <Text style={styles.resend}>{'Resend Verification Code'}</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate(ROUTE_NAME.SIGNUP)}>
+              <Text style={styles.resend}>{STRINGNAME.RESEND_CODE}</Text>
             </TouchableOpacity>
           </View>
 
-          <Image
-            style={styles.bmx}
-            source={require('../../assets/image/BMX.png')}
-          />
+          <Image style={styles.bmx} source={IMAGE.bmx} />
           <Image style={styles.footer} source={IMAGE.footer} />
         </View>
       </ScrollView>
@@ -245,9 +247,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 3,
     borderColor: COLOR.sky,
     alignSelf: 'center',
-    backgroundColor: COLOR.black,
-    height: 300,
-    width: 350,
+    backgroundColor: COLOR.light_Black2,
+    height: normalize(244),
+    width: normalize(328),
     justifyContent: 'center',
     padding: 20,
     borderRadius: 5,
@@ -277,7 +279,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   inpView: {
-    marginVertical: normalize(15),
+    marginVertical: normalize(30),
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
@@ -298,25 +300,23 @@ const styles = StyleSheet.create({
   //   alignSelf: 'center',
   //   marginTop: 30,
   // },
-  button1: {
+  buttonEnabled: {
     backgroundColor: COLOR.sky,
     borderRadius: 5,
     height: normalize(48),
     width: normalize(328),
-
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: normalize(30),
+    marginTop: normalize(15),
   },
   buttonDisabled: {
     backgroundColor: COLOR.mud,
     borderRadius: 5,
     height: normalize(48),
-
     width: normalize(328),
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: normalize(30),
+    marginTop: normalize(15),
   },
   buttonTextDisabled: {
     fontSize: 16,
@@ -324,6 +324,7 @@ const styles = StyleSheet.create({
     color: COLOR.grey,
     fontWeight: '900',
     fontStyle: 'italic',
+    textTransform: 'uppercase',
   },
   buttonText: {
     fontSize: 16,
@@ -331,5 +332,15 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '900',
     fontStyle: 'italic',
+    textTransform: 'uppercase',
   },
+  numberEdit: {
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+  editTxt: {
+    color: COLOR.sky,
+    fontWeight: '800',
+  },
+  modalTextCongo: {color: 'white', textAlign: 'center'},
 });

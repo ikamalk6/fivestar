@@ -4,18 +4,18 @@ import COLOR from '../utils/colors';
 import {normalize, vh} from '../utils/dimensions';
 
 export function EnableButton(props: any) {
-  const {label, onPress} = props;
+  const {label, onPress, style} = props;
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
       <Text style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
   );
 }
 
 export function DisableButton(props: any) {
-  const {label} = props;
+  const {label, style} = props;
   return (
-    <TouchableOpacity style={styles.buttonDisabled}>
+    <TouchableOpacity style={[styles.buttonDisabled, style]}>
       <Text style={styles.buttonTextDisabled}>{label}</Text>
     </TouchableOpacity>
   );

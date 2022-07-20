@@ -1,10 +1,14 @@
 import axios from 'axios';
-import React from 'react';
-export const zipcodeAction = (text: string) => {
+import URL_LINKS from '../../../utils/url';
+export const zipcodeAction = (text: string, page: number) => {
   console.log(text);
-  return (dispatch: any) => {
+  return (dispatch: any, getState: any) => {
+    const {
+      ProfileReducer: {zipCodeData},
+    } = getState();
+
     const $https = axios.create({
-      baseURL: 'https://fivestardevapi.appskeeper.in/api/v1',
+      baseURL: URL_LINKS.BASE_URL,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -12,10 +16,17 @@ export const zipcodeAction = (text: string) => {
     });
 
     $https
-      .get(`/zipcode-list?&search=${text}&page=1`)
+      .get(`/zipcode-list?&search=${text}&limit=15&page=${page}`)
       .then(resp => {
         console.log('========>', resp);
-        dispatch({type: 'ZIPCODE_SET', payload: resp.data.data});
+        if (page > 1 && zipCodeData.length > 0) {
+          dispatch({
+            type: 'ZIPCODE_SET',
+            payload: [...zipCodeData, ...resp.data.data.result],
+          });
+        } else {
+          dispatch({type: 'ZIPCODE_SET', payload: resp.data.data.result});
+        }
       })
       .catch(error => {
         console.log('ZIPCODEERRRORRR', error);

@@ -13,6 +13,7 @@ import {IMAGE} from '../../utils/images';
 import GoBack from '../../components/goBackBtn';
 import {STRINGNAME} from '../../utils/string';
 import {normalize} from '../../utils/dimensions';
+import {ROUTE_NAME} from '../../router/routeNames';
 
 export default function ChoicePage() {
   const [optedOption, setOptedOption] = useState('');
@@ -28,9 +29,7 @@ export default function ChoicePage() {
     <View style={styles.container}>
       <View>
         <GoBack />
-
         <Text style={styles.question}>{STRINGNAME.WHO_ARE_YOU}</Text>
-
         <TouchableOpacity
           onPress={() => {
             diss(STRINGNAME.FAN);
@@ -48,7 +47,7 @@ export default function ChoicePage() {
             style={optedOption === STRINGNAME.FAN ? styles.fan : styles.fanDis}
             source={IMAGE.fan}
           />
-          {/*  */}
+
           <Text
             style={
               optedOption === STRINGNAME.FAN ? styles.fanTxt1 : styles.fanTxt
@@ -64,6 +63,14 @@ export default function ChoicePage() {
           style={styles.fanView}>
           <Image
             style={
+              optedOption === STRINGNAME.ATHLETE
+                ? styles.tickStyl
+                : styles.tickStyldead
+            }
+            source={IMAGE.tick}
+          />
+          <Image
+            style={
               optedOption === STRINGNAME.ATHLETE ? styles.fan : styles.fanDis
             }
             source={IMAGE.athlete}
@@ -75,7 +82,10 @@ export default function ChoicePage() {
           optedOption != STRINGNAME.FAN && optedOption != STRINGNAME.ATHLETE
         }
         onPress={() => {
-          navigation.navigate(STRINGNAME.COMPLETE_PROFILE);
+          navigation.navigate(ROUTE_NAME.COMPLETE_PROFILE, {
+            optedOption,
+            setOptedOption,
+          });
         }}
         style={styles.btnView}>
         <Image
